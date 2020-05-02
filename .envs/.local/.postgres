@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=hotelkrone
+POSTGRES_USER=qiXhxIsYZdlztiqYrhMVcTlNrVOguKkg
+POSTGRES_PASSWORD=j2eWL99uwtJlb23Cxxt95Zo1qWgDkctwZDZjYIq56aXYiu5KfRTx5dPJ623dxoBN

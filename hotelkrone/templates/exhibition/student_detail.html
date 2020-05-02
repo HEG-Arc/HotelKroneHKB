@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-image: url('{{ object.background.url }}')">
+<h1>{{ object.first_name }} {{ object.last_name }}</h1>
+<p>Instagram: {{ object.instagram_handle }} | Website: {{ object.website }}</p>
+
+<h2>{{ object.master_thesis_title }}</h2>
+<p>{{ object.master_thesis_abstract }}</p>
+
+<h2>Artwork</h2>
+{% for media in object.media_set.all %}
+<div>
+  {% if media.image %}
+      <img src="{{ media.image.url }}" height="200px"><br><i>{{ media.legend }}</i>
+  {% else %}
+      {{ media.html_embed|safe }}
+  {% endif %}
+  <h2>{{ media.name }}</h2>
+  <p>{{ media.description }}</p>
+</div>
+<hr/>
+{% endfor %}
+
+</body>
+</html>

@@ -6,8 +6,10 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from hotelkrone.exhibition.views import Zimmer, Orte, POI, HotelKrone
+
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", HotelKrone.as_view(), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -16,7 +18,10 @@ urlpatterns = [
     # User management
     path("users/", include("hotelkrone.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+
+    path("zimmer/<slug:slug>/", Zimmer.as_view(), name='zimmer'),
+    path("orte/<slug:slug>/", Orte.as_view(), name='orte'),
+    path("artwork/<int:pk>/", POI.as_view(), name='poi'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
