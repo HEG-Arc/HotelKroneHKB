@@ -14,6 +14,8 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+     - /home/hkb/media:/app/hotelkrone/media
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
@@ -29,6 +31,14 @@ services:
       - production_postgres_data_backups:/backups
     env_file:
       - ./.envs/.production/.postgres
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/production/nginx/Dockerfile
+    image: hotelkrone_production_nginx
+    volumes:
+     - /home/hkb/media:/usr/share/nginx/html:ro
 
   traefik:
     build:
