@@ -63,6 +63,25 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
+    home-router:
+      rule: "Host(`hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: nginx
+
+    home-secure-router:
+      rule: "Host(`hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: nginx
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
   middlewares:
     redirect:
       # https://docs.traefik.io/master/middlewares/redirectscheme/
