@@ -1,29 +1,124 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body style="background-image: url('{{ object.background.url }}')">
-<h1>{{ object.first_name }} {{ object.last_name }}</h1>
-<p>Instagram: {{ object.instagram_handle }} | Website: {{ object.website }}</p>
+<html lang="en" dir="ltr">
+  <head>
+      <title>Hotel Krone: {{ object.first_name }} {{ object.last_name }}</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css?family=Gravitas+One&display=swap" rel="stylesheet">
+      <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/couture" type="text/css"/>
+      <link rel="stylesheet" href="{% static 'css/master-hk.css' %}">
+      <link rel="stylesheet" href="{% static 'css/project.css' %}">
+  </head>
+  <body>
 
-<h2>{{ object.master_thesis_title }}</h2>
-<p>{{ object.master_thesis_abstract }}</p>
+      <div id="main">
+        <div id="corner-top-left">
+          <img src="{% static 'media/corner-tl.png' %}" width="100%" height="100%" alt="">
+        </div>
+        <div id="top-hotel">
+          <div id="title-hotel">
+            <a href="{% url 'home' %}" class="linknames title">HK.be</a>
 
-<h2>Artwork</h2>
-{% for media in object.media_set.all %}
-<div>
-  {% if media.image %}
-      <img src="{{ media.image.url }}" height="200px"><br><i>{{ media.legend }}</i>
-  {% else %}
-      {{ media.html_embed|safe }}
-  {% endif %}
-  <h2>{{ media.name }}</h2>
-  <p>{{ media.description }}</p>
-</div>
-<hr/>
-{% endfor %}
+            {% if prev_student %}
+              <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames">&nbsp;☜</a>
+            {% endif %}
+            <span class="subtitle">{{ object.first_name }} {{ object.last_name }}</span>
+            {% if next_student %}
+              <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">☞</a>
+            {% endif %}
+          </div>
+        </div>
+        <div id="corner-top-right">
+          <img src="{% static 'media/corner-tr.png' %}" width="100%" height="100%" alt="">
+        </div>
 
-</body>
+        <div id="middle">
+            <div id="mar-left">
+              {%  if not first_orte %}
+                <div id="txtleft"><span class="whitetxt">x</span></div>
+              {% else %}
+                <div id="txtleft"><a href="{{ first_orte.orte.get_absolute_url }}" class="linknames">{{ first_orte.orte.name }}</a></div>
+              {% endif %}
+            </div>
+
+            <div id="key">
+              <div id="keycase">
+                <!-- Ici on met les éléments -->
+              </div>
+              <div id="room" class="student-room">
+                <p style="text-align: left;">Instagram: <a href="https://www.instagram.com/{{ object.instagram_handle }}">@{{ object.instagram_handle }}</a> | Website: <a href="{{ object.personal_website }}">{{ object.personal_website }}</a>
+                {% if object.project_website %} | Project <a href="{{ object.project_website }}">{{ object.project_website }}</a>{% if object.project_website2 %} | Project <a href="{{ object.project_website2 }}">{{ object.project_website2 }}</a>{% endif %}{% endif %}
+                {% if object.kleio_profile %} | Kleio <a href="{{ object.kleio_profile }}">{{ object.kleio_profile }}</a>{% endif %}</p>
+                  <h2>Artwork</h2>
+                  <div id="carouselStudent" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      {% for media in object.media_set.all %}
+                      <li data-target="#carouselStudent" data-slide-to="forloop.counter0"{% if forloop.first %} class="active"{% endif %}></li>
+                      {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                      {% for media in object.media_set.all %}
+                      <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                        {% if media.image %}
+                            <img src="{{ media.image.url }}"><br><i>{{ media.legend }}</i>
+                        {% else %}
+                            {{ media.html_embed|safe }}
+                        {% endif %}
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>{{ media.name }}</h5>
+                          <p>{{ media.description }}</p>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselStudent" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselStudent" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
+              </div>
+            </div>
+
+            <div id="mar-right">
+              {%  if not second_orte %}
+                <div id="txtleft"><span class="whitetxt">x</span></div>
+              {% else %}
+                <div id="txtleft"><a href="{{ second_orte.orte.get_absolute_url }}" class="linknames">{{ second_orte.orte.name }}</a></div>
+              {% endif %}
+            </div>
+        </div>
+
+        <div id="bottom">
+          <div id="corner-down-left">
+            <img src="{% static 'media/corner-bl.png' %}" width="100%" height="100%" alt="">
+          </div>
+
+          <div id="corner-down-right">
+            <img src="{% static 'media/corner-br.png' %}" width="100%" height="100%" alt="">
+          </div>
+
+          <div id="ground">
+            <div id="groundthesistitle" class="title">
+              {{ object.bachelor_thesis_title }}
+            </div>
+            <div id="groundtext-ort">
+              {{ object.bachelor_thesis_abstract }}
+            </div>
+            <div id="footer">
+              some links to <a href="">HKB</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  </body>
 </html>

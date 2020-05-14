@@ -6,7 +6,7 @@ from . import models
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('first_name', 'last_name')}
-    list_display = ["first_name", "last_name", "instagram_handle", "website"]
+    list_display = ["first_name", "last_name", "instagram_handle",]
     search_fields = ["last_name"]
 
 

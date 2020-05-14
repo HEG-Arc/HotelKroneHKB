@@ -2,12 +2,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-      <title>Hotel Krone: Homepage</title>
-      <link rel="stylesheet" href="{% static 'css/master-hk-2.css' %}">
+      {% if object.entrance %}
+        <title>Hotel Krone: Homepage</title>
+      {% else %}
+        <title>Hotel Krone: {{ object.name }}</title>
+      {% endif %}
       <link href="https://fonts.googleapis.com/css?family=Gravitas+One&display=swap" rel="stylesheet">
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/couture" type="text/css"/>
       <script src="{% static 'js/three.min.js' %}"></script>
       <script src="{% static 'js/panolens.min.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'css/master-hk.css' %}">
+      <link rel="stylesheet" href="{% static 'css/project.css' %}">
   </head>
   <body>
 
@@ -17,53 +22,51 @@
         </div>
         <div id="top-hotel">
           <div id="title-hotel">
-            <span class="title">Hotel Krone</span>
+            <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+            {%  if not object.entrance %}
+              <span class="subtitle">: {{ object.name }}</span>
+            {% endif %}
           </div>
         </div>
         <div id="corner-top-right">
           <img src="{% static 'media/corner-tr.png' %}" width="100%" height="100%" alt="">
         </div>
 
-
         <div id="middle">
             <div id="mar-left">
-              <div class="txtleft"><a href="{{ object.previous.get_absolute_url }}">{{ object.previous.name }}</a></div>
+              {%  if object.entrance %}
+                <div id="txtleft"><span class="whitetxt">x</span></div>
+              {% else %}
+                <div id="txtleft"><a href="{{ object.previous.get_absolute_url }}" class="linknames">{{ object.previous.name }}</a></div>
+              {% endif %}
             </div>
 
             <div id="key">
-
-                <div id="keycase">
-                  <table class="keyholder">
-                    <tr>
-                      <td><p>Hotel Krone</p></td>
-                      <td><p>Hotel Krone</p></td>
-                      <td><p>Hotel Krone</p></td>
-                    </tr>
-                    <tr>
-                      <td><p>Hotel Krone</p></td>
-                      <td><p>Hotel Krone</p></td>
-                      <td><p>Hotel Krone</p></td>
-                    </tr>
-                  </div>
-                </table><br>
-                <table class="keyholder">
-                  <tr>
-                    <td><p>Hotel Krone</p></td>
-                    <td><p>Hotel Krone</p></td>
-                    <td><p>Hotel Krone</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Hotel Krone</p></td>
-                    <td><p>Hotel Krone</p></td>
-                    <td><p>Hotel Krone</p></td>
-                  </tr>
-                </table>
+              <div id="keycase">
+                {% for ort in orte_list %}
+                  <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
+                {% endfor %}
               </div>
-              <div id="room"></div>
+              <div id="room">
+                  {% if object.animation == 'NOJS' %}
+                    {% if object.background %}
+                      <img src="{{ object.background.url }}" width="100%" alt="">
+                    {% else %}
+                      {{ object.html_embed|safe }}
+                    {% endif %}
+                  {% elif object.animation == 'INFI' %}
+
+                  {% elif object.animation == 'EQUI' %}
+                  {% endif %}
+              </div>
             </div>
 
             <div id="mar-right">
-              <div class="txtright"><a href="{{ object.next.get_absolute_url }}">{{ object.next.name }}</a></div>
+              {%  if object.entrance %}
+                <div id="txtleft"><span class="whitetxt">x</span></div>
+              {% else %}
+                <div id="txtleft"><a href="{{ object.next.get_absolute_url }}" class="linknames">{{ object.next.name }}</a></div>
+              {% endif %}
             </div>
         </div>
 
@@ -77,44 +80,61 @@
           </div>
 
           <div id="ground">
-            <div class="names">
-              {% for student in students %}
-              <a href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>
-              {% endfor %}
+            {% if object.entrance %}
+            <div id="groundnames" class="names">
+                <ul id="namelist">
+                {% for student in students %}
+                  <li><a class="linknames" href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>&nbsp;</li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div id="groundtext">
+              {{ object.description }}
+            </div>
+            {% else %}
+            <div id="groundtext-ort">
+              {{ object.description }}
+            </div>
+            {% endif %}
+            <div id="footer">
+              some links to <a href="">HKB</a>
             </div>
           </div>
         </div>
-
       </div>
 
-      {% for poi in object.poi_set.all %}
-      <div id="media{{ poi.pk }}" style="display:none; background-color: blue;width: 450px;">
-        {% if poi.media.image %}
-          <img src="{{ poi.media.image.url }}" height="200px"><br><i>{{ poi.media.legend }}</i>
-        {% else %}
-            {{ poi.media.html_embed|safe }}
-        {% endif %}
-        <div class="title">{{ poi.media.name }}</div>
-        <div class="text">{{ poi.media.description }}</div>
-      </div>
-      {% endfor %}
+      {% if object.animation == 'NOJS' %}
 
+      {% elif object.animation == 'INFI' %}
 
-
-      <script>
-
-          const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
-
+      {% elif object.animation == 'EQUI' %}
           {% for poi in object.poi_set.all %}
-          infospot{{ poi.pk }} = new PANOLENS.Infospot( 400, '{{ poi.poi_image.url }}' );
-          infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_x }}, -5000 );
-          infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
-          panorama.add( infospot{{ poi.pk }} );
+            <div id="media{{ poi.pk }}" style="display:none; background-color: blue;width: 450px;">
+            {% if poi.media.image %}
+                <img src="{{ poi.media.image.url }}" height="200px"><br><i>{{ poi.media.legend }}</i>
+            {% else %}
+                {{ poi.media.html_embed|safe }}
+            {% endif %}
+                <div class="title">{{ poi.media.name }}</div>
+                <div class="text">{{ poi.media.description }}</div>
+            </div>
           {% endfor %}
 
-          const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false});
-          viewer.add( panorama );
-      </script>
+          <script>
+              const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
+
+              {% for poi in object.poi_set.all %}
+              infospot{{ poi.pk }} = new PANOLENS.Infospot( 400, '{{ poi.poi_image.url }}' );
+              infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_x }}, -5000 );
+              infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
+              panorama.add( infospot{{ poi.pk }} );
+              {% endfor %}
+
+              const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false});
+              viewer.add( panorama );
+          </script>
+      {% endif %}
+
 
   </body>
 </html>

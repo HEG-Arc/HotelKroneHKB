@@ -9,6 +9,27 @@ class Zimmer(DetailView):
     model = models.Student
     slug_field = "slug"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['first_orte'] = models.POI.objects.filter(media__student=self.get_object()).first()
+        context['second_orte'] = models.POI.objects.filter(media__student=self.get_object()).last()
+
+        students = models.Student.objects.all()
+        for i, student in enumerate(students):
+          if student == self.get_object():
+            try:
+              prev = students[i-1]
+            except:
+              prev = None
+            try:
+              next = students[i+1]
+            except:
+              next = None
+        context['prev_student'] = prev
+        context['next_student'] = next
+
+        return context
+
 
 class Orte(DetailView):
     model = models.Orte
@@ -32,4 +53,5 @@ class HotelKrone(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['students'] = models.Student.objects.all()
+        context['orte_list'] = models.Orte.objects.exclude(pk=self.get_object().id)
         return context
