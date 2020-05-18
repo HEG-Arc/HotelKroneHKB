@@ -13,6 +13,7 @@ class Zimmer(DetailView):
         context = super().get_context_data(**kwargs)
         context['first_orte'] = models.POI.objects.filter(media__student=self.get_object()).first()
         context['second_orte'] = models.POI.objects.filter(media__student=self.get_object()).last()
+        context['artworks'] = models.Media.objects.filter(student=self.get_object(), display_in_zimmer=True)
 
         students = models.Student.objects.all()
         for i, student in enumerate(students):

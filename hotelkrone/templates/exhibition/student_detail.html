@@ -57,7 +57,7 @@
                       {% endfor %}
                     </ol>
                     <div class="carousel-inner">
-                      {% for media in object.media_set.all %}
+                      {% for media in artworks %}
                       <div class="carousel-item{% if forloop.first %} active{% endif %}">
                         {% if media.image %}
                             <img src="{{ media.image.url }}"><br><i>{{ media.legend }}</i>
