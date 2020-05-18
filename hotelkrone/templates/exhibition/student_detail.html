@@ -85,9 +85,9 @@
 
             <div id="mar-right">
               {%  if not second_orte %}
-                <div id="txtleft"><span class="whitetxt">x</span></div>
+                <div id="txtright"><span class="whitetxt">x</span></div>
               {% else %}
-                <div id="txtleft"><a href="{{ second_orte.orte.get_absolute_url }}" class="linknames">{{ second_orte.orte.name }}</a></div>
+                <div id="txtright"><a href="{{ second_orte.orte.get_absolute_url }}" class="linknames">{{ second_orte.orte.name }}</a></div>
               {% endif %}
             </div>
         </div>

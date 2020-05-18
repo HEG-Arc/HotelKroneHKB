@@ -63,9 +63,9 @@
 
             <div id="mar-right">
               {%  if object.entrance %}
-                <div id="txtleft"><span class="whitetxt">x</span></div>
+                <div id="txtright"><span class="whitetxt">x</span></div>
               {% else %}
-                <div id="txtleft"><a href="{{ object.next.get_absolute_url }}" class="linknames">{{ object.next.name }}</a></div>
+                <div id="txtright"><a href="{{ object.next.get_absolute_url }}" class="linknames">{{ object.next.name }}</a></div>
               {% endif %}
             </div>
         </div>
