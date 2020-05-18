@@ -42,22 +42,24 @@
             </div>
 
             <div id="key">
-              <div id="keycase">
-                {% for ort in orte_list %}
-                  <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
-                {% endfor %}
-              </div>
-              <div id="room">
-                  {% if object.animation == 'NOJS' %}
-                    {% if object.background %}
-                      <img src="{{ object.background.url }}" width="100%" alt="">
-                    {% else %}
-                      {{ object.html_embed|safe }}
-                    {% endif %}
-                  {% elif object.animation == 'INFI' %}
+              <div id="keycontent">
+                <div id="keycase">
+                  {% for ort in orte_list %}
+                    <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
+                  {% endfor %}
+                </div>
+                <div id="room">
+                    {% if object.animation == 'NOJS' %}
+                      {% if object.background %}
+                        <img src="{{ object.background.url }}" width="100%" alt="">
+                      {% else %}
+                        {{ object.html_embed|safe }}
+                      {% endif %}
+                    {% elif object.animation == 'INFI' %}
 
-                  {% elif object.animation == 'EQUI' %}
-                  {% endif %}
+                    {% elif object.animation == 'EQUI' %}
+                    {% endif %}
+                </div>
               </div>
             </div>
 
