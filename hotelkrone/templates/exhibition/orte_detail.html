@@ -89,11 +89,11 @@
                 </ul>
             </div>
             <div id="groundtext">
-              {{ object.description }}
+              {{ object.description|safe }}
             </div>
             {% else %}
             <div id="groundtext-ort">
-              {{ object.description }}
+              {{ object.description|safe }}
             </div>
             {% endif %}
             <div id="footer">
