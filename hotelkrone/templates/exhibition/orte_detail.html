@@ -9,8 +9,23 @@
       {% endif %}
       <link href="https://fonts.googleapis.com/css?family=Gravitas+One&display=swap" rel="stylesheet">
       <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/couture" type="text/css"/>
-      <script src="{% static 'js/three.min.js' %}"></script>
-      <script src="{% static 'js/panolens.min.js' %}"></script>
+      {% if object.animation == 'INFI' %}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+        	<style>
+            #map {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              right: 0;
+              top: 0;
+            }
+          </style>
+      {% elif object.animation == 'EQUI' %}
+        <script src="{% static 'js/three.min.js' %}"></script>
+        <script src="{% static 'js/panolens.min.js' %}"></script>
+      {% endif %}
+
       <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css">
       <link rel="stylesheet" href="{% static 'css/project.css' %}">
   </head>
@@ -56,7 +71,16 @@
                         {{ object.html_embed|safe }}
                       {% endif %}
                     {% elif object.animation == 'INFI' %}
+                      <div id="map"></div>
+                      <script type="text/javascript">
+                        var map = L.map('map', {
+                          crs: L.CRS.Simple
+                        });
+                        var bounds = [[0,0], [2000,2000]];
+                        var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
 
+                        map.fitBounds(bounds);
+                      </script>
                     {% elif object.animation == 'EQUI' %}
                     {% endif %}
                 </div>
