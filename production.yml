@@ -56,4 +56,10 @@ services:
   redis:
     image: redis:5.0
 
-  
+  restreamer:
+    image: datarhei/restreamer
+    ports:
+     - "0.0.0.0:1935:1935"
+    environment:
+     - RS_PASSWORD=hellostream
+

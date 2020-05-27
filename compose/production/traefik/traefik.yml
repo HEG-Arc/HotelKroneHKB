@@ -82,6 +82,24 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
+    rtmp-router:
+      rule: "Host(`rtmp.hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: restreamer
+
+    rtmp-secure-router:
+      rule: "Host(`rtmp.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: restreamer
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
   middlewares:
     redirect:
       # https://docs.traefik.io/master/middlewares/redirectscheme/
@@ -103,6 +121,10 @@ http:
       loadBalancer:
         servers:
           - url: http://nginx:9000
+    restreamer:
+      loadBalancer:
+        servers:
+          - url: http://restreamer:8080
 
 providers:
   # https://docs.traefik.io/master/providers/file/
