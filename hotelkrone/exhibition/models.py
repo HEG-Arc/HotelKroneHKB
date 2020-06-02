@@ -103,6 +103,7 @@ class POI(models.Model):
     name = models.CharField(max_length=100)
     orte = models.ForeignKey(Orte, on_delete=models.CASCADE)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    scale = models.IntegerField(default=100)
     position_x = models.IntegerField(default=100)
     position_y = models.IntegerField(default=100)
     position_z = models.IntegerField(default=100)

@@ -174,8 +174,8 @@
               const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
 
               {% for poi in object.poi_set.all %}
-              infospot{{ poi.pk }} = new PANOLENS.Infospot( 400, '{{ poi.poi_image.url }}' );
-              infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_x }}, -5000 );
+              infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}' );
+              infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
               infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
               panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
