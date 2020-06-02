@@ -64,7 +64,7 @@ http:
         certResolver: letsencrypt
 
     home-router:
-      rule: "Host(`hotelkrone.be`)"
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
       
       entryPoints:
         - web
@@ -73,7 +73,7 @@ http:
       service: nginx
 
     home-secure-router:
-      rule: "Host(`hotelkrone.be`)"
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
       
       entryPoints:
         - web-secure
