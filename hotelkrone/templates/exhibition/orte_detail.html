@@ -180,7 +180,7 @@
               panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
 
-              const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false});
+              const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false, output: 'console'});
               viewer.add( panorama );
           </script>
       {% endif %}
