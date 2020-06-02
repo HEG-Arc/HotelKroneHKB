@@ -64,14 +64,15 @@ class Orte(models.Model):
     INFINITE = "INFI"
     NOJS = "NOJS"
     ANIMATE = [
-      (EQUIRECTANGULAR, _('Equirectangular Picture)')),
-      (INFINITE, _('Infinite Scroll Picture)')),
-      (NOJS, _('Static Picture / Live Stream)')),
+      (EQUIRECTANGULAR, _('Equirectangular Picture')),
+      (INFINITE, _('Infinite Scroll Picture')),
+      (NOJS, _('Static Picture / Live Stream')),
     ]
     animation = models.CharField(max_length=4, choices=ANIMATE, default=EQUIRECTANGULAR)
     name = models.CharField(max_length=100)
     hover_image = models.ImageField(upload_to='orten', blank=True, null=True)
     background = models.ImageField(upload_to='orten', blank=True, null=True)
+    background_sound = models.FileField(upload_to='sounds', blank=True, null=True)
     html_embed = models.TextField(blank=True, null=True)
     js_config = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)

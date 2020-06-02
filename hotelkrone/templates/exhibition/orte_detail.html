@@ -132,6 +132,27 @@
         </div>
       </div>
 
+      {%  if object.background_sound %}
+      <div>
+        <button id="play-button">Play/Pause</button>
+      </div>
+      <audio id="background-audio">
+        <source src="{{ object.background_sound.url }}" type="audio/mpeg">
+      </audio>
+      <script>
+      var button = document.getElementById("play-button");
+      var audio = document.getElementById("background-audio");
+
+      button.addEventListener("click", function(){
+        if(audio.paused){
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+      </script>
+      {% endif %}
+
       {% if object.animation == 'NOJS' %}
 
       {% elif object.animation == 'INFI' %}
