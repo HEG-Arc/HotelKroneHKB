@@ -80,11 +80,12 @@ class Orte(models.Model):
     next = models.ForeignKey("Orte", on_delete=models.CASCADE, blank=True, null=True, related_name="next_orte")
     entrance = models.BooleanField(default=False)
     slug = models.SlugField(null=False, unique=True)
+    order = models.IntegerField(default = 0)
 
     class Meta:
         verbose_name = _("orte")
         verbose_name_plural = _("orten")
-        ordering = ["name"]
+        ordering = ["order", "name"]
 
     def __str__(self):
         return "{}".format(self.name)
