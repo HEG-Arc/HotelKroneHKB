@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
       {% if object.entrance %}
         <title>Hotel Krone: Homepage</title>
@@ -28,62 +29,69 @@
 
       <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css">
       <link rel="stylesheet" href="{% static 'css/project.css' %}">
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Source+Sans+Pro:wght@300;400;600;700&family=Zilla+Slab:wght@500&display=swap" rel="stylesheet">
+  
   </head>
+  
+  
   <body>
 
       <div id="main">
-        <div id="corner-top-left">
-          <img src="{% static 'media/corner-tl.png' %}" width="100%" height="100%" alt="">
-        </div>
-        <div id="top-hotel">
-          <div id="title-hotel">
-            <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
-            {%  if not object.entrance %}
-              <span class="subtitle">: {{ object.name }}</span>
-            {% endif %}
+        <div id="topline">
+          <div id="corner-top-left">
+            <img src="{% static 'media/corner-tl.png' %}" width="100%" height="100%" alt="">
           </div>
-        </div>
-        <div id="corner-top-right">
-          <img src="{% static 'media/corner-tr.png' %}" width="100%" height="100%" alt="">
+          <div id="top-hotel">		
+            <div id="title-hotel">
+              <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+                {%  if not object.entrance %}
+                <span class="subtitle">: {{ object.name }}</span>
+              {% endif %}
+            </div>
+          </div>
+          <div id="corner-top-right">
+            <img src="{% static 'media/corner-tr.png' %}" width="100%" height="100%" alt="">
+          </div>
         </div>
 
         <div id="middle">
-            <div id="mar-left">
-              {%  if object.entrance %}
-                <div id="txtleft"><span class="whitetxt">x</span></div>
-              {% else %}
-                <div id="txtleft"><a href="{{ object.previous.get_absolute_url }}" class="linknames">{{ object.previous.name }}</a></div>
-              {% endif %}
-            </div>
+			    <div id="mar-left">
+            {%  if object.entrance %}
+              <div id="txtleft"><span class="whitetxt">x</span></div>
+            {% else %}
+              <div id="txtleft"><a href="{{ object.previous.get_absolute_url }}" class="linknames">{{ object.previous.name }}</a></div>
+            {% endif %}
+          </div>
 
-            <div id="key">
-              <div id="keycontent">
-                <div id="keycase">
-                  {% for ort in orte_list %}
-                    <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
-                  {% endfor %}
+          <div id="key">
+            <div id="keyconten">
+              <div id="keycase">
+                {% for ort in orte_list %}
+                  <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
+                {% endfor %}
                 </div>
                 <div id="room">
-                    {% if object.animation == 'NOJS' %}
-                      {% if object.background %}
-                        <img src="{{ object.background.url }}" width="100%" alt="">
-                      {% else %}
-                        {{ object.html_embed|safe }}
-                      {% endif %}
-                    {% elif object.animation == 'INFI' %}
-                      <div id="map"></div>
-                      <script type="text/javascript">
-                        var bounds = [[0,0], [1000,1000]];
-                        var map = L.map('map', {
-                          crs: L.CRS.Simple,
-                          maxBounds: bounds,
-                          maxBoundsViscosity: 1.0
-                        });
+					        {% if object.animation == 'NOJS' %}
+                    {% if object.background %}
+                      <img src="{{ object.background.url }}" width="100%" alt="">
+                    {% else %}
+                      {{ object.html_embed|safe }}
+                    {% endif %}
+                  {% elif object.animation == 'INFI' %}
+                    <div id="map"></div>
+                    <script type="text/javascript">
+                      var bounds = [[0,0], [1000,1000]];
+                      var map = L.map('map', {
+                        crs: L.CRS.Simple,
+                        maxBounds: bounds,
+                        maxBoundsViscosity: 1.0
+                      });
 
-                        var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                        map.fitBounds(bounds);
+                      var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
+                      map.fitBounds(bounds);
 
-                      </script>
+                    </script>
                     {% elif object.animation == 'EQUI' %}
                     {% endif %}
                 </div>
@@ -103,11 +111,11 @@
           <div id="corner-down-left">
             <img src="{% static 'media/corner-bl.png' %}" width="100%" height="100%" alt="">
           </div>
-
+		  
           <div id="corner-down-right">
             <img src="{% static 'media/corner-br.png' %}" width="100%" height="100%" alt="">
           </div>
-
+		  
           <div id="ground">
             {% if object.entrance %}
             <div id="groundnames" class="names">
@@ -125,14 +133,17 @@
               {{ object.description|safe }}
             </div>
             {% endif %}
-            <div id="footer">
-              some links to <a href="">HKB</a>
+
+			<div id="footer">
+              <p>A project by the <a class="linkund" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts</a>. Hosted by the <a class="linkund" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a>.<br>
+              <a class="linkund" href="" >Impressum</a>. © by HKB and the authors 2020
+              <p><img src="{% static 'media/logo-kl.png' %}" width="100px"/>&nbsp<img src="{% static 'media/logo-hkb.png' %}" width="100px"/></p>
             </div>
-          </div>
         </div>
       </div>
-
-      {%  if object.background_sound %}
+    </div>
+	
+	{%  if object.background_sound %}
       <div>
         <button id="play-button">Play/Pause</button>
       </div>
@@ -156,6 +167,29 @@
       {% if object.animation == 'NOJS' %}
 
       {% elif object.animation == 'INFI' %}
+        <!-- Calque media & impressum -->
+        <div class=overlayframe></div>
+        <div class="overlay">
+          <a href="" class="overlay-student linkoverlay">Adriana Bravo</a><span class="overlay-arrow">☜</span>
+          <a href="..." class="overlay-close linkoverlay">Ort</a><span class="overlay-close overlay-arrow">☞</span>
+          <div class="overlay-content">
+          <span class="overlay-title">Horse</span>
+          <div class="overlay-element">
+            <iframe class="overlay-pdf" src="{% static 'media/test.pdf' %}#toolbar=0" width="50%" height="500px"> <!-- pdf ? pas une image ? -->
+            </iframe>
+          </div>
+          <p class="overlay-caption">Horse, 24x30x10cm, Bronze.</p>
+          <div class="overlay-description">
+            Instructions: download the following file <a href="..." class="linkoverlay">mybook.pdf</a> and print it at home on 100% size
+          </div>
+          </div>
+        </div>
+        <!-- Fin Calque media & impressum -->
+
+          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 
       {% elif object.animation == 'EQUI' %}
           {% for poi in object.poi_set.all %}
@@ -184,7 +218,7 @@
               viewer.add( panorama );
           </script>
       {% endif %}
-
-
+	
+      
   </body>
 </html>
