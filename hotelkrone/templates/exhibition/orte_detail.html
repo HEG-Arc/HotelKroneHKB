@@ -3,6 +3,16 @@
 <html lang="en" dir="ltr">
 
   <head>
+    <meta property="og:url"           content="http://www.hotelkrone.be" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="homepage the BA fine arts diploma 2020, HKB, Bern" />
+    <meta property="og:description"   content="This page presents the works of the BA fine arts diploma students of the HKB Bern" />
+    <meta property="og:description"   content="Diploma, HKB, hotelkrone, hotelkrone.be, fine arts, BA fine arts, Bachelor fine arts" />
+
+    <meta name="keywords" content="diploma BA fine arts, HKB, Bern, Hochschule der Künste, Kunsthauslangenthal, Soraya Amini, Louna Berkane, Adriana Bravo, Rozenn Droz, Benjamin Gaschen, Zeno Germinale, Lukas Hirschhofer, Quentin Keller, Lea Luzifer, Kira Mäder, Matteo Petruzzi, Sina Schöpf, Anouk Ursin, Lisa Zuber">
+    <meta name="description" content="homepage the BA fine arts diploma 2020, HKB, Bern">
+    <meta name="date" content="June 2020">
+
       {% if object.entrance %}
         <title>Hotel Krone: Homepage</title>
       {% else %}
@@ -27,11 +37,13 @@
         <script src="{% static 'js/panolens.min.js' %}"></script>
       {% endif %}
 
-    <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css">
-    <link rel="stylesheet" href="{% static 'css/project.css' %}">
 	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Source+Sans+Pro:wght@300;400;600;700&family=Zilla+Slab:wght@500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/jpg" href="{% static 'media/webicon.jpg' %}">
+
+    <!-- <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css"> -->
+    <link rel="stylesheet" href="{% static 'css/master-hk.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
   
   </head>
   
@@ -66,11 +78,11 @@
           </div>
 
           <div id="key">
-            <div id="keyconten">
+            <div id="keycontent">
               <div id="keycase">
-                {% for ort in orte_list %}
-                  <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
-                {% endfor %}
+                  {% for ort in orte_list %}
+                    <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
+                  {% endfor %}
                 </div>
                 <div id="room">
 					        {% if object.animation == 'NOJS' %}
@@ -119,10 +131,10 @@
 		  
           <div id="ground">
             {% if object.entrance %}
-            <div id="groundnames" class="names">
-                <ul id="namelist">
+            <div id="groundnames" class="namesnew">
+                <ul class="namelist">
                 {% for student in students %}
-                  <li><a class="linknames" href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>&nbsp;</li>
+                  <li><a class="linknames spacenamein" href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>&nbsp;</li>
                 {% endfor %}
                 </ul>
             </div>
@@ -135,14 +147,44 @@
             </div>
             {% endif %}
 
-			<div id="footer">
+			      <div id="footer">
               <p>A project by the <a class="linkund" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts</a>. Hosted by the <a class="linkund" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a>.<br>
-              <a class="linkund" href="" >Impressum</a>. © by HKB and the authors 2020
+              <a id ="Impressum" class="linkund" href="" >Impressum</a>. © by HKB and the authors 2020
               <p><img src="{% static 'media/logo-kl.png' %}" width="100px"/>&nbsp<img src="{% static 'media/logo-hkb.png' %}" width="100px"/></p>
             </div>
         </div>
       </div>
     </div>
+
+    <div id="overlay" class=overlayframe style=" display : none">
+          <div class="overlay" >
+             <!-- <a href="" class="overlay-student linkoverlay">Adriana Bravo</a><span class="overlay-arrow">☜</span> -->
+            <a id="close" href="" class="overlay-close linkoverlay">Reception</a><span class="overlay-close overlay-arrow">☞</span>
+            <div class="overlay-content">
+              <span class="overlay-title">Impressum</span>
+              <div class="overlay-description">
+                <p>Instructions: download the following file <a href="..." class="linkoverlay">mybook.pdf</a> and print it at home on 100% size</p>
+                <dl>
+                  <dt>Head of Department</dt>
+                  <dd>Anselm Stalder</dd>
+
+                  <dt>Teachers</dt>
+                  <dd>A sea serpent.</dd>
+                  <dd>An old Owl.</dd>
+
+                  <dt>Design</dt>
+                  <dd>A giant owl-like creature.</dd>
+                </dl>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Calque media & impressum -->
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	
 	{%  if object.background_sound %}
       <div>
@@ -165,45 +207,53 @@
       </script>
       {% endif %}
 
-      {% if object.animation == 'NOJS' %}
+      <script>
+        
+        var impresum = document.getElementById("overlay");
+        var impresumBtn = document.getElementById("Impressum");
+        impresumBtn.addEventListener("click", function(){
+          impresum.style.display = "block";
+        });
 
-      {% elif object.animation == 'INFI' %}
-        <!-- Calque media & impressum -->
-        <div class=overlayframe></div>
+        var closebtn = document.getElementById("close");
+        closebtn.addEventListener("click", function(){
+          impresum.style.display = "none";
+        });
+
+      </script>
+
+      {% for poi in object.poi_set.all %}
+      <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
         <div class="overlay">
-          <a href="" class="overlay-student linkoverlay">Adriana Bravo</a><span class="overlay-arrow">☜</span>
-          <a href="..." class="overlay-close linkoverlay">Ort</a><span class="overlay-close overlay-arrow">☞</span>
+          <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay"> {{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-arrow">☜</span>
+          <a href="{{poi.orte.get_absolute_url}}" class="overlay-close linkoverlay">{{poi.orte.name}}</a><span class="overlay-close overlay-arrow">☞</span>
           <div class="overlay-content">
-          <span class="overlay-title">Horse</span>
-          <div class="overlay-element">
-            <iframe class="overlay-pdf" src="{% static 'media/test.pdf' %}#toolbar=0" width="50%" height="500px"> <!-- pdf ? pas une image ? -->
-            </iframe>
-          </div>
-          <p class="overlay-caption">Horse, 24x30x10cm, Bronze.</p>
-          <div class="overlay-description">
-            Instructions: download the following file <a href="..." class="linkoverlay">mybook.pdf</a> and print it at home on 100% size
-          </div>
+            <span class="overlay-title">{{poi.media.name}}</span>
+            <div class="overlay-element">
+              
+                {% if poi.media.image %}
+                <img src="{{ poi.media.image.url }}" >
+                {% else %}
+                    {{ poi.media.html_embed|safe }}
+                {% endif %}
+              
+            </div>
+            <p class="overlay-caption">{{poi.media.legend}}</p>
+            <div class="overlay-description">
+              {{poi.media.description}}
+            </div>
           </div>
         </div>
-        <!-- Fin Calque media & impressum -->
+      </div>
 
-          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      {% endfor %}
 
+      {% if object.animation == 'NOJS' %}
+
+      {% elif object.animation == 'INFI' %} 
 
       {% elif object.animation == 'EQUI' %}
-          {% for poi in object.poi_set.all %}
-            <div id="media{{ poi.pk }}" style="display:none; background-color: blue;width: 450px;">
-            {% if poi.media.image %}
-                <img src="{{ poi.media.image.url }}" height="200px"><br><i>{{ poi.media.legend }}</i>
-            {% else %}
-                {{ poi.media.html_embed|safe }}
-            {% endif %}
-                <div class="title">{{ poi.media.name }}</div>
-                <div class="text">{{ poi.media.description }}</div>
-            </div>
-          {% endfor %}
+          
 
           <script>
               const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
@@ -220,6 +270,11 @@
           </script>
       {% endif %}
 	
-      
+  
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
   </body>
 </html>
