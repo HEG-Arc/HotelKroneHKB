@@ -3,14 +3,25 @@
 <html lang="en" dir="ltr">
   <head>
       <title>Hotel Krone: {{ object.first_name }} {{ object.last_name }}</title>
+
+      <meta property="og:url"           content="http://www.hotelkrone.be" />
+      <meta property="og:type"          content="website" />
+      <meta property="og:title"         content="homepage the BA fine arts diploma 2020, HKB, Bern" />
+      <meta property="og:description"   content="This page presents the works of the BA fine arts diploma students of the HKB Bern" />
+      <meta property="og:description"   content="Diploma, HKB, hotelkrone, hotelkrone.be, fine arts, BA fine arts, Bachelor fine arts" />
+      
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="keywords" content="diploma BA fine arts, HKB, Bern, Hochschule der Künste, Kunsthauslangenthal, Soraya Amini, Louna Berkane, Adriana Bravo, Rozenn Droz, Benjamin Gaschen, Zeno Germinale, Lukas Hirschhofer, Quentin Keller, Lea Luzifer, Kira Mäder, Matteo Petruzzi, Sina Schöpf, Anouk Ursin, Lisa Zuber">
       <meta name="description" content="homepage the BA fine arts diploma 2020, HKB, Bern">
       <meta name="date" content="May 2020">
+
+      
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
       <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Source+Sans+Pro:wght@300;400;600;700&family=Zilla+Slab:wght@500&display=swap" rel="stylesheet">
+
 	    <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css">
       <link rel="stylesheet" href="{% static 'css/project.css' %}">
+
       <link rel="icon" type="image/jpg" href="{% static 'media/webicon.jpg' %}">
   </head>
 
@@ -19,94 +30,94 @@
 
         <div id="topline">
           <div id="corner-top-left"></div>
-            <div id="top-hotel">
-              <div id="title-hotel">
-                <a href="{% url 'home' %}" class="linknames title">HK.be</a>
-				<span class="subtitlestud">
-				{% if prev_student %}
-					<a href="{{ prev_student.get_absolute_url }}" class="arrow linknames spacename">&nbsp;☜</a>
-				{% endif %}
-					<span class="subtitle">{{ object.first_name }} {{ object.last_name }}</span>
-				{% if next_student %}
-					<a href="{{ next_student.get_absolute_url }}" class="arrow linknames">☞</a>
-				{% endif %}
-				
-                </span>
+          <div id="top-hotel">
+            <div id="title-hotel">
+              <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+              <span class="subtitlestud">
+                {% if prev_student %}
+                  <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames spacename">&nbsp;☜</a>
+                {% endif %}
+                  {{ object.first_name }} {{ object.last_name }}
+                {% if next_student %}
+                  <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">☞</a>
+                {% endif %}
+              </span>
 
-              </div>
             </div>
+          </div>
           <div id="corner-top-right"></div>
         </div>
 
-        <div id="middle">
-			<div id="mar-left">
-              {%  if not first_orte %}
-                <div id="txtleft"><span class="whitetxt">x</span></div>
-              {% else %}
-                <div id="txtleft"><a href="{{ first_orte.orte.get_absolute_url }}" class="linkstudent">{{ first_orte.orte.name }}</a></div>
-              {% endif %}
-            </div>
+      <div id="middle">
+			  <div id="mar-left">
+          {%  if not first_orte %}
+            <div id="txtleft"><span class="greytxt">x</span></div>
+          {% else %}
+            <div id="txtleft"><a href="{{ first_orte.orte.get_absolute_url }}" class="linkstudent">{{ first_orte.orte.name }}</a></div>
+          {% endif %}
+        </div>
 
-            <div id="key-student">
-                <div id="carouselcont">
-                  <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
+          <div id="key-student">
+              <div id="carouselcont">
+                <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
                   <!-- <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-interval="10000"> -->
-                    <div class="carousel-inner">
-	  
-					   {% for media in artworks %}
-                        <div class="carousel-item{% if forloop.first %} active{% endif %}">
-                          {% if media.image %}
-                              <img src="{{ media.image.url }}" class="d-block w-100">
-                          {% else %}
-                              {{ media.html_embed|safe }}
-                          {% endif %}
-						  <div class="carousel-capt">
+                  <div class="carousel-inner">
+  
+                    {% for media in artworks %}
+                      <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                        {% if media.image %}
+                            <img src="{{ media.image.url }}" class="d-block w-100">
+                        {% else %}
+                            {{ media.html_embed|safe }}
+                        {% endif %}
+                        <div class="carousel-capt">
                           <p class="carousel-capt-title">{{ media.name }}</p>
                           <p class="carousel-capt-txt">{{ media.description }}</p>
                           <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                            <img src="media/arrow-prev.png" width="20px" alt="">
+                            <img src="{% static 'media/arrow-prev.png'%}" width="20px" alt="">
                             <span class="sr-only">Previous</span>
                           </a>
                           <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                            <img src="media/arrow-next.png" width="20px" alt="">
+                            <img src="{% static 'media/arrow-next.png'%}" width="20px" alt="">
                             <span class="sr-only">Next</span>
                           </a>
                         </div>
-                        {% endfor %}
-					  
+                    {% endfor %}
+        
                     </div>
                   </div>
                 </div>
+              </div>
 
                 <div id="ground-student">
 
                   <div id="groundtextthesis">
-					{{ object.bachelor_thesis_abstract|safe }}
+					          {{ object.bachelor_thesis_abstract|safe }}
                   </div>
                   <div id="groundstudlinks">
-					<dl>
-						{% if object.personal_website %}
-						<dt>Website:</dt> <dd><a href="{{ object.personal_website }}" class="linkund externlink" target="_blank">{{ object.personal_website }}</a></dd>
-						{% endif %}
-						{% if object.instagram_handle %}
-						 <dt>Instagram:</dt> <dd> <a href="https://www.instagram.com/{{ object.instagram_handle }}" class="linkund externlink" target="_blank">@{{ object.instagram_handle }}</a></dd>
-						{% endif %}
-						{% if object.project_website %}
-						 <dt>{% if object.project_website2 %}Projects: </dt>{% else %}Project: </dt>{% endif %}<dd> <a href="{{ object.project_website }}" class="linkund externlink" target="_blank">{{ object.project_website }}</a>{% if object.project_website2 %} | <a href="{{ object.project_website2 }}">{{ object.project_website2 }}</a>{% endif %}</dd>
-						{% endif %}
-						{% if object.kleio_profile %}
-						 <dt>Kleio: </dt> <dd><a href="{{ object.kleio_profile }}" class="linkund externlink" target="_blank">{{ object.kleio_profile }}</a></dd>
-						{% endif %}
-						{% if object.portfolio %}
-						 <dd class="portfolio">Download portofolio as pdf file <a href="{{ object.portfolio.url }}" class="linkund externlink" target="_blank">here</a></dd>
-						{% endif %}
-					</dl>
+                    <dl>
+                      {% if object.personal_website %}
+                      <dt>Website:</dt> <dd><a href="{{ object.personal_website }}" class="linkund externlink" target="_blank">{{ object.personal_website }}</a></dd>
+                      {% endif %}
+                      {% if object.instagram_handle %}
+                        <dt>Instagram:</dt> <dd> <a href="https://www.instagram.com/{{ object.instagram_handle }}" class="linkund externlink" target="_blank">@{{ object.instagram_handle }}</a></dd>
+                      {% endif %}
+                      {% if object.project_website %}
+                        <dt>{% if object.project_website2 %}Projects: </dt>{% else %}Project: </dt>{% endif %}<dd> <a href="{{ object.project_website }}" class="linkund externlink" target="_blank">{{ object.project_website }}</a>{% if object.project_website2 %} | <a href="{{ object.project_website2 }}">{{ object.project_website2 }}</a>{% endif %}</dd>
+                      {% endif %}
+                      {% if object.kleio_profile %}
+                        <dt>Kleio: </dt> <dd><a href="{{ object.kleio_profile }}" class="linkund externlink" target="_blank">{{ object.kleio_profile }}</a></dd>
+                      {% endif %}
+                      {% if object.portfolio %}
+                        <dd class="portfolio">Download portofolio as pdf file <a href="{{ object.portfolio.url }}" class="linkund externlink" target="_blank">here</a></dd>
+                      {% endif %}
+                    </dl>
                   </div>
                 </div>
             </div>
-			<div id="mar-right">
+			      <div id="mar-right">
               {%  if not second_orte %}
-                <div id="txtright"><span class="whitetxt">x</span></div>
+                <div id="txtright"><span class="greytxt">x</span></div>
               {% else %}
                 <div id="txtright"><a href="{{ second_orte.orte.get_absolute_url }}" class="linkstudent">{{ second_orte.orte.name }}</a></div>
               {% endif %}

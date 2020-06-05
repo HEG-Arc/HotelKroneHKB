@@ -291,7 +291,9 @@ body
 .whitetxt {
   color: white;
 }
-
+.greytext {
+  color: #d5d4d1;
+  }
 
 a.externlink[href^="http://"]:after,
 a.externlink[href^="https://"]:after {
@@ -807,9 +809,17 @@ only screen and (max-device-width : 680px){
       width: 84%;
       background-color: #000;
       z-index: 85;
-      /* height: 0; */
-      overflow: hidden;
-      padding-top: calc(2/3 * 84%);
+      height: 0;
+      overflow: hidden;
+      padding-top: calc(2/3 * 100%);
+    }
+
+    #keycontent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     #key-student{
