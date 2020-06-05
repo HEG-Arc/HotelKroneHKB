@@ -21,11 +21,17 @@ class Zimmer(DetailView):
             try:
               prev = students[i-1]
             except:
-              prev = None
+              try:
+                prev = students[len(students)-1]
+              except:
+                prev = None
             try:
               next = students[i+1]
             except:
-              next = None
+              try:
+                next = students[0]
+              except:
+                next = None
         context['prev_student'] = prev
         context['next_student'] = next
 
