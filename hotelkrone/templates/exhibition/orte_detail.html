@@ -83,12 +83,12 @@
                   {% endfor %}
                 </div>
                 <div id="room">
-					        {% if object.animation == 'NOJS' %}
-                    {% if object.background %}
-                      <img src="{{ object.background.url }}" width="100%" alt="">
-                    {% else %}
-                      {{ object.html_embed|safe }}
-                    {% endif %}
+                    {% if object.animation == 'NOJS' %}
+                        {% if object.background %}
+                          <img src="{{ object.background.url }}" width="100%" alt="">
+                        {% else %}
+                          {{ object.html_embed|safe }}
+                        {% endif %}
                   {% elif object.animation == 'INFI' %}
                     <div id="map"></div>
                     <script type="text/javascript">
@@ -220,52 +220,65 @@
 
       </script>
 
+
       {% for poi in object.poi_set.all %}
-      <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
-        <div class="overlay">
-          <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay"> {{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-arrow">☜</span>
-          <a href="{{poi.orte.get_absolute_url}}" class="overlay-close linkoverlay">{{poi.orte.name}}</a><span class="overlay-close overlay-arrow">☞</span>
-          <div class="overlay-content">
-            <span class="overlay-title">{{poi.media.name}}</span>
-            <div class="overlay-element">
-              
-                {% if poi.media.image %}
-                <img src="{{ poi.media.image.url }}" >
-                {% else %}
-                    {{ poi.media.html_embed|safe }}
-                {% endif %}
-              
-            </div>
-            <p class="overlay-caption">{{poi.media.legend}}</p>
-            <div class="overlay-description">
-              {{poi.media.description}}
-            </div>
-          </div>
-        </div>
-      </div>
+
+
+              <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
+                <div class="overlay">
+                  <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay"> {{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-arrow">☜</span>
+                  <a href="{{poi.orte.get_absolute_url}}" class="overlay-close linkoverlay">{{poi.orte.name}}</a><span class="overlay-close overlay-arrow">☞</span>
+                  <div class="overlay-content">
+                    <span class="overlay-title">{{poi.media.name}}</span>
+                    <div class="overlay-element">
+
+
+                        {% if poi.media.image %}
+                        <img src="{{ poi.media.image.url }}" >
+                        {% else %}
+                            {{ poi.media.html_embed|safe }}
+                        {% endif %}
+
+                    </div>
+                    <p class="overlay-caption">{{poi.media.legend}}</p>
+                    <div class="overlay-description">
+                      {{poi.media.description}}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
       {% endfor %}
+
 
       {% if object.animation == 'NOJS' %}
 
       {% elif object.animation == 'INFI' %} 
 
       {% elif object.animation == 'EQUI' %}
-          
+
 
           <script>
+
+
               const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
 
+
+
               {% for poi in object.poi_set.all %}
-              infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}' );
-              infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
-              infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
-              panorama.add( infospot{{ poi.pk }} );
+                  infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}' );
+                  infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
+                  {% if not poi.hide_overlay %}
+                      infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
+                  {% endif %}
+                  panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
 
               const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false, output: 'console'});
               viewer.add( panorama );
+
           </script>
+
       {% endif %}
 	
   

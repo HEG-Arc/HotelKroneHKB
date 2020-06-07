@@ -112,6 +112,8 @@ class POI(models.Model):
     position_h = models.IntegerField(default=100)
     this_is_a_cat = models.BooleanField(default=False)
     poi_image = models.ImageField(upload_to='poi', blank=True, null=True)
+    this_is_a_sound = models.BooleanField(default=False)
+    hide_overlay = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("POI")
