@@ -42,7 +42,8 @@
     <link rel="stylesheet" href="{% static 'css/project.css' %}">
 
     <link rel="icon" type="image/jpg" href="{% static 'media/webicon.jpg' %}">
-  
+
+
   </head>
   
   
@@ -84,10 +85,13 @@
                 </div>
                 <div id="room">
                     {% if object.animation == 'NOJS' %}
-                        {% if object.background %}
-                          <img src="{{ object.background.url }}" width="100%" alt="">
-                        {% else %}
-                          {{ object.html_embed|safe }}
+                        <div id="container" style="position:relative">
+                            {% if object.background %}
+                              <img id="backgroundIMG" src="{{ object.background.url }}" width="100%" alt="">
+
+                            {% else %}
+                              {{ object.html_embed|safe }}
+                        </div>
                         {% endif %}
                   {% elif object.animation == 'INFI' %}
                     <div id="map"></div>
@@ -252,6 +256,43 @@
 
 
       {% if object.animation == 'NOJS' %}
+          <script>
+            $(function() {
+            $("#backgroundIMG").click(function(e) {
+              var offset = $(this).offset();
+              var relativeX = (e.pageX - offset.left);
+              var relativeY = (e.pageY - offset.top);
+              alert("x " + (relativeX*100) / width +':'+(relativeY*100) / height);
+              $(".position").val("afaf");
+            });
+            });
+
+            var ele = document.getElementById('container');
+            var height = ele.clientHeight;
+            var width = ele.clientWidth;
+
+            document.getElementById("backgroundIMG").style.position="relative"
+
+
+
+             {% for poi in object.poi_set.all %}
+
+                    var img = document.createElement("img");
+                    img.src = "{{poi.poi_image.url}}";
+                    var position_y = {{poi.position_y}};
+                    var position_x = {{poi.position_x}};
+                    var scaleH = (position_y*100)  / width;
+                    var scaleV = (position_x*100) / height;
+
+                    var block = document.getElementById("container");
+                    block.appendChild(img);
+                    img.style.position = "absolute";
+
+                    img.style.left = position_x+ "%" ;
+                    img.style.top = position_y+ "%";
+
+             {% endfor %}
+          </script>
 
       {% elif object.animation == 'INFI' %} 
 
@@ -266,6 +307,7 @@
 
 
               {% for poi in object.poi_set.all %}
+
                   infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}' );
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
                   {% if not poi.hide_overlay %}
@@ -280,7 +322,7 @@
           </script>
 
       {% endif %}
-	
+
   
 
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
