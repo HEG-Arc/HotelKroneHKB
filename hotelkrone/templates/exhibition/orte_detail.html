@@ -256,7 +256,22 @@
 
 
       {% if object.animation == 'NOJS' %}
+
+
+
           <script>
+            <!-- Si on n est pas à la home page on mets a 0 le menu des places  -->
+           {% if not object.entrance %}
+               var menuOrte = document.getElementById('keycase');
+               menuOrte.style.width = "0%";
+               menuOrte.style.padding ="0px"
+
+           {% endif %}
+
+            var block = document.getElementById('container');
+            var height = block.clientHeight;
+            var width = block.clientWidth;
+
             $(function() {
             $("#backgroundIMG").click(function(e) {
               var offset = $(this).offset();
@@ -267,29 +282,53 @@
             });
             });
 
-            var ele = document.getElementById('container');
-            var height = ele.clientHeight;
-            var width = ele.clientWidth;
 
             document.getElementById("backgroundIMG").style.position="relative"
 
 
-
              {% for poi in object.poi_set.all %}
 
-                    var img = document.createElement("img");
+
+                 {% if poi.this_is_a_sound %}
+                     var button = document.createElement('button');
+                     button.id="play-button";
+                     button.innerHTML = 'Play/Pause';
+
+                    block.appendChild(button);
+
+                    button.style.left = "{{poi.position_y}}%" ;
+                    button.style.top = "{{poi.position_x}}%";
+
+                    var sound      = document.createElement('audio');
+                    sound.id       = 'audio-player';
+                    sound.src      = '{{ poi.media.sound.url }}';
+                    sound.type     = 'audio/mpeg';
+                    block.appendChild(sound);
+
+
+                      button.onclick = function(){
+                        if(sound.paused){
+                          sound.play();
+                        } else {
+                          sound.pause();
+                        }
+                      };
+
+                 {% else %}
+
+                     var img = document.createElement("img");
                     img.src = "{{poi.poi_image.url}}";
-                    var position_y = {{poi.position_y}};
-                    var position_x = {{poi.position_x}};
-                    var scaleH = (position_y*100)  / width;
-                    var scaleV = (position_x*100) / height;
 
-                    var block = document.getElementById("container");
+
                     block.appendChild(img);
-                    img.style.position = "absolute";
 
-                    img.style.left = position_x+ "%" ;
-                    img.style.top = position_y+ "%";
+                    img.style.position = "absolute";
+                    img.style.left = "{{poi.position_y}}%" ;
+                    img.style.top = "{{poi.position_x}}%";
+
+                 {% endif %}
+
+
 
              {% endfor %}
           </script>
