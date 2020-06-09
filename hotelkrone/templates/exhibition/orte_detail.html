@@ -34,8 +34,7 @@
         <script src="{% static 'js/three.min.js' %}"></script>
         <script src="{% static 'js/panolens.min.js' %}"></script>
       {% endif %}
-
-	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Source+Sans+Pro:wght@300;400;600;700&family=Zilla+Slab:wght@500&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css">
@@ -76,7 +75,7 @@
             {% endif %}
           </div>
 
-          <div id="key">
+          <div id="key" >
             <div id="keycontent">
               <div id="keycase">
                   {% for ort in orte_list %}
@@ -268,12 +267,12 @@
 
            {% endif %}
 
-            var block = document.getElementById('container');
+            var block = document.getElementById('room');
             var height = block.clientHeight;
             var width = block.clientWidth;
 
             $(function() {
-            $("#backgroundIMG").click(function(e) {
+            $("#room").click(function(e) {
               var offset = $(this).offset();
               var relativeX = (e.pageX - offset.left);
               var relativeY = (e.pageY - offset.top);
@@ -287,44 +286,38 @@
 
 
              {% for poi in object.poi_set.all %}
+                    var img{{ poi.id }} = document.createElement("img");
+                    img{{ poi.id }}.src = "{{poi.poi_image.url}}";
 
+
+                    block.appendChild(img{{ poi.id }});
+
+                    img{{ poi.id }}.style.position = "absolute";
+                    img{{ poi.id }}.style.left = "{{poi.position_y}}%" ;
+                    img{{ poi.id }}.style.top = "{{poi.position_x}}%";
 
                  {% if poi.this_is_a_sound %}
-                     var button = document.createElement('button');
-                     button.id="play-button";
-                     button.innerHTML = 'Play/Pause';
-
-                    block.appendChild(button);
-
-                    button.style.left = "{{poi.position_y}}%" ;
-                    button.style.top = "{{poi.position_x}}%";
-
-                    var sound      = document.createElement('audio');
-                    sound.id       = 'audio-player';
-                    sound.src      = '{{ poi.media.sound.url }}';
-                    sound.type     = 'audio/mpeg';
-                    block.appendChild(sound);
 
 
-                      button.onclick = function(){
-                        if(sound.paused){
-                          sound.play();
+
+                    var sound{{ poi.id }}      = document.createElement('audio');
+                    sound{{ poi.id }}.id       = 'audio-player';
+                    sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
+                    sound{{ poi.id }}.type     = 'audio/mpeg';
+                    block.appendChild(sound{{ poi.id }});
+
+
+                      img{{ poi.id }}.onclick = function(){
+                        if(sound{{ poi.id }}.paused){
+                          sound{{ poi.id }}.play();
                         } else {
-                          sound.pause();
+                          sound{{ poi.id }}.pause();
                         }
                       };
 
                  {% else %}
 
-                     var img = document.createElement("img");
-                    img.src = "{{poi.poi_image.url}}";
 
-
-                    block.appendChild(img);
-
-                    img.style.position = "absolute";
-                    img.style.left = "{{poi.position_y}}%" ;
-                    img.style.top = "{{poi.position_x}}%";
 
                  {% endif %}
 
@@ -341,17 +334,41 @@
           <script>
 
 
-              const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}' );
-
+              const panorama = new PANOLENS.ImagePanorama( 'https://pchen66.github.io/Panolens/examples/asset/textures/equirectangular/tunnel.jpg'  );
+              var content = document.getElementById('main');
 
 
               {% for poi in object.poi_set.all %}
 
-                  infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}' );
+
+                  infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
                   {% if not poi.hide_overlay %}
-                      infospot{{ poi.pk }}.addHoverElement( document.getElementById( 'media{{ poi.pk }}' ), 200 );
+                          infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} | {{ poi.media.name }} | {{poi.media.student.first_name}} {{poi.media.student.first_name}}", 50 );
                   {% endif %}
+
+                  {% if poi.this_is_a_sound %}
+
+                    var sound{{ poi.pk }}      = document.createElement('audio');
+                    sound{{ poi.pk }}.id       = 'audio-player{{ poi.pk }}';
+                    sound{{ poi.pk }}.src      = '{{ poi.media.sound.url }}';
+                    sound{{ poi.pk }}.type     = 'audio/mpeg';
+                    content.appendChild(sound{{ poi.pk }});
+
+                    infospot{{ poi.pk }}.addEventListener( 'click', function(){
+
+                        if(sound{{ poi.pk }}.paused){
+
+                          sound{{ poi.pk }}.play();
+
+                        } else {
+
+                          sound{{ poi.pk }}.pause();
+
+                        }
+                      } );
+                  {% endif %}
+
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
 

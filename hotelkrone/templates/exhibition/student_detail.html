@@ -67,7 +67,25 @@
                       <div class="carousel-item{% if forloop.first %} active{% endif %}">
                         {% if media.image %}
                             <img src="{{ media.image.url }}" class="d-block w-100">
+                        {% elif media.sound %}
+
+                              <audio id="background-audio" controls>
+                                <source src="{{ media.sound.url }}" type="audio/mpeg">
+                              </audio>
+                              <script>
+                              var button = document.getElementById("play-button");
+                              var audio = document.getElementById("background-audio");
+
+                              button.addEventListener("click", function(){
+                                if(audio.paused){
+                                  audio.play();
+                                } else {
+                                  audio.pause();
+                                }
+                              });
+                              </script>
                         {% else %}
+
                             {{ media.html_embed|safe }}
                         {% endif %}
                         <div class="carousel-capt">
