@@ -35,11 +35,11 @@
               <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
               <span class="subtitlestud">
                 {% if prev_student %}
-                  <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames spacename">&nbsp;☜</a>
+                  <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames"><img src="{% static 'media/arrow-prev.png' %}" width="15px" alt="">&nbsp</a>
                 {% endif %}
                   {{ object.first_name }} {{ object.last_name }}
                 {% if next_student %}
-                  <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">☞</a>
+                  <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">&nbsp<img src="{% static 'media/arrow-next.png' %}" width="15px" alt=""></a>
                 {% endif %}
               </span>
 
