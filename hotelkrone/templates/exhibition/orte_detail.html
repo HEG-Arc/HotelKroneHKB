@@ -189,7 +189,16 @@
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-	
+	  <script>
+          function toggleOverlay(mediaId) {
+              let x = document.getElementById(mediaId);
+              if (x.style.display === "none") {
+                x.style.display = "block";
+              } else {
+                x.style.display = "none";
+              }
+          }
+      </script>
 	{%  if object.background_sound %}
       <div>
         <button id="play-button">Play/Pause</button>
@@ -212,14 +221,13 @@
       {% endif %}
 
       {% for poi in object.poi_set.all %}
-
-
               <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
                 <div class="overlay">
-                  <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay"> {{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-arrow">☜</span>
-                  <a href="{{poi.orte.get_absolute_url}}" class="overlay-close linkoverlay">{{poi.orte.name}}</a><span class="overlay-close overlay-arrow">☞</span>
+                  <a href="#" class="linkoverlay" onclick="toggleOverlay('media{{ poi.pk }}'); return false"><img class="overlay-close" src="{% static 'media/close-white.png' %}"></a>
+                  <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay">{{poi.media.student.first_name}} {{poi.media.student.last_name}}</a>
+                  <span class="overlay-title">{{poi.media.name}}</span>
                   <div class="overlay-content">
-                    <span class="overlay-title">{{poi.media.name}}</span>
+
                     <div class="overlay-element">
 
 
@@ -232,7 +240,7 @@
                     </div>
                     <p class="overlay-caption">{{poi.media.legend}}</p>
                     <div class="overlay-description">
-                      {{poi.media.description}}
+                      {{poi.media.description|safe}}
                     </div>
                   </div>
                 </div>
@@ -263,7 +271,7 @@
               var offset = $(this).offset();
               var relativeX = (e.pageX - offset.left);
               var relativeY = (e.pageY - offset.top);
-              alert("x " + (relativeX*100) / width +':'+(relativeY*100) / height);
+              console.log("x " + (relativeX*100) / width +' : y '+(relativeY*100) / height);
               $(".position").val("afaf");
             });
             });
@@ -284,32 +292,23 @@
                     img{{ poi.id }}.style.left = "{{poi.position_x}}%";
 
                  {% if poi.this_is_a_sound %}
-
-
-
                     var sound{{ poi.id }}      = document.createElement('audio');
                     sound{{ poi.id }}.id       = 'audio-player';
                     sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
                     sound{{ poi.id }}.type     = 'audio/mpeg';
                     block.appendChild(sound{{ poi.id }});
-
-
-                      img{{ poi.id }}.onclick = function(){
+                    img{{ poi.id }}.onclick = function(){
                         if(sound{{ poi.id }}.paused){
                           sound{{ poi.id }}.play();
                         } else {
                           sound{{ poi.id }}.pause();
                         }
-                      };
-
+                    };
                  {% else %}
-
-
-
+                     img{{ poi.id }}.onclick = function(){
+                        toggleOverlay('media{{ poi.pk }}');
+                     };
                  {% endif %}
-
-
-
              {% endfor %}
           </script>
 
@@ -346,6 +345,7 @@
 
                     L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         console.log(e.latlng);
+                        toggleOverlay('media{{ poi.pk }}');
                     });
                 {% endif %}
 
@@ -376,6 +376,9 @@
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
                   {% if not poi.hide_overlay %}
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} | {{ poi.media.name }} | {{poi.media.student.first_name}} {{poi.media.student.first_name}}", 50 );
+                          infospot{{ poi.pk }}.addEventListener( 'click', function(){
+                              toggleOverlay('media{{ poi.pk }}');
+                          } );
                   {% endif %}
 
                   {% if poi.this_is_a_sound %}
@@ -409,12 +412,6 @@
           </script>
 
       {% endif %}
-
-  
-
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
   </body>
 </html>
