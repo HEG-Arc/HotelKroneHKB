@@ -149,39 +149,17 @@
             </div>
             {% endif %}
 
-			      <div id="footer">
+            <div id="footer">
               <p>A project by the <a class="linkund" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts</a>. Hosted by the <a class="linkund" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a>.<br>
-              <a id ="Impressum" class="linkund" href="" >Impressum</a>. © by HKB and the authors 2020
+              <a href="#impressum"  class="linkund" data-toggle="modal">Impressum</a>. © by HKB and the authors 2020
               <p><img src="{% static 'media/logo-kl.png' %}" width="100px"/>&nbsp<img src="{% static 'media/logo-hkb.png' %}" width="100px"/></p>
             </div>
         </div>
       </div>
     </div>
 
-    <div id="overlay" class=overlayframe style=" display : none">
-          <div class="overlay" >
-             <!-- <a href="" class="overlay-student linkoverlay">Adriana Bravo</a><span class="overlay-arrow">☜</span> -->
-            <a id="close" href="" class="overlay-close linkoverlay">Reception</a><span class="overlay-close overlay-arrow">☞</span>
-            <div class="overlay-content">
-              <span class="overlay-title">Impressum</span>
-              <div class="overlay-description">
-                <p>Instructions: download the following file <a href="..." class="linkoverlay">mybook.pdf</a> and print it at home on 100% size</p>
-                <dl>
-                  <dt>Head of Department</dt>
-                  <dd>Anselm Stalder</dd>
 
-                  <dt>Teachers</dt>
-                  <dd>A sea serpent.</dd>
-                  <dd>An old Owl.</dd>
-
-                  <dt>Design</dt>
-                  <dd>A giant owl-like creature.</dd>
-                </dl>
-
-              </div>
-            </div>
-          </div>
-        </div>
+    {% include "exhibition/snippet_impressum.html" with close_caption=object.name %}
         <!-- Fin Calque media & impressum -->
 
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -208,22 +186,6 @@
       });
       </script>
       {% endif %}
-
-      <script>
-        
-        var impresum = document.getElementById("overlay");
-        var impresumBtn = document.getElementById("Impressum");
-        impresumBtn.addEventListener("click", function(){
-          impresum.style.display = "block";
-        });
-
-        var closebtn = document.getElementById("close");
-        closebtn.addEventListener("click", function(){
-          impresum.style.display = "none";
-        });
-
-      </script>
-
 
       {% for poi in object.poi_set.all %}
 
