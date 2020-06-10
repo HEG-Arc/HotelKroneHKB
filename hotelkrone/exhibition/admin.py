@@ -12,7 +12,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Media)
 class MediaAdmin(admin.ModelAdmin):
-    list_display = ["name", "student"]
+    list_display = ["name", "student", "order"]
     search_fields = ["name"]
     list_filter = ["student"]
 

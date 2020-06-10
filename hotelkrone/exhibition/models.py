@@ -43,11 +43,12 @@ class Media(models.Model):
     sound = models.FileField(upload_to='artworks', blank=True, null=True)
     html_embed = models.TextField(blank=True, null=True)
     display_in_zimmer = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = _("media")
         verbose_name_plural = _("medias")
-        ordering = ["name"]
+        ordering = ["order", "name"]
 
     def __str__(self):
         return "{} - {}".format(self.student, self.name)
