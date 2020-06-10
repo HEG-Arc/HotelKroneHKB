@@ -326,7 +326,53 @@
              {% endfor %}
           </script>
 
-      {% elif object.animation == 'INFI' %} 
+      {% elif object.animation == 'INFI' %}
+          <script>
+            {% for poi in object.poi_set.all %}
+                var greenIcon{{ poi.id }} = L.icon({
+                    iconUrl: '{{poi.poi_image.url}}',
+
+                    iconSize:     [{{poi.position_w}}, {{poi.position_h}}], // size of the icon
+                    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                });
+
+
+                {% if poi.this_is_a_sound %}
+
+                    var block = document.getElementById('room');
+
+                    var sound{{ poi.id }}      = document.createElement('audio');
+                    sound{{ poi.id }}.id       = 'audio-player';
+                    sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
+                    sound{{ poi.id }}.type     = 'audio/mpeg';
+                    block.appendChild(sound{{ poi.id }});
+
+                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                       if(sound{{ poi.id }}.paused){
+                              sound{{ poi.id }}.play();
+                            } else {
+                              sound{{ poi.id }}.pause();
+                            }
+                        });
+                {%else %}
+
+                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                        console.log(e.latlng);
+                    });
+                {% endif %}
+
+
+                map.on('click', function(e){
+                  var coord = e.latlng;
+                  var lat = coord.lat;
+                  var lng = coord.lng;
+                  console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+                });
+
+            {% endfor %}
+
+          </script>
 
       {% elif object.animation == 'EQUI' %}
 
