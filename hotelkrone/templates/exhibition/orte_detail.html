@@ -83,31 +83,32 @@
                   {% endfor %}
                 </div>
                 <div id="room">
-                    {% if object.animation == 'NOJS' %}
-                        <div id="container" style="position:relative">
-                            {% if object.background %}
-                              <img id="backgroundIMG" src="{{ object.background.url }}" width="100%" alt="">
+                {% if object.animation == 'NOJS' %}
+                     <div id="container" style="position:relative">
+                         {% if object.background %}
+                             <img id="backgroundIMG" src="{{ object.background.url }}" width="100%" alt="">
+                         {% else %}
+                             {{ object.html_embed|safe }}
+                         {% endif %}
+                     </div>
+                {% elif object.animation == 'INFI' %}
+                    {% if object.background %}
+                        <div id="map"></div>
+                        <script type="text/javascript">
+                          var bounds = [[0,0], [1000,1000]];
+                          var map = L.map('map', {
+                            crs: L.CRS.Simple,
+                            maxBounds: bounds,
+                            maxBoundsViscosity: 1.0
+                          });
 
-                            {% else %}
-                              {{ object.html_embed|safe }}
-                        </div>
-                        {% endif %}
-                  {% elif object.animation == 'INFI' %}
-                    <div id="map"></div>
-                    <script type="text/javascript">
-                      var bounds = [[0,0], [1000,1000]];
-                      var map = L.map('map', {
-                        crs: L.CRS.Simple,
-                        maxBounds: bounds,
-                        maxBoundsViscosity: 1.0
-                      });
+                          var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
+                          map.fitBounds(bounds);
 
-                      var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                      map.fitBounds(bounds);
-
-                    </script>
-                    {% elif object.animation == 'EQUI' %}
+                        </script>
                     {% endif %}
+                {% elif object.animation == 'EQUI' %}
+                {% endif %}
                 </div>
               </div>
             </div>
@@ -378,10 +379,10 @@
 
 
           <script>
-
-
-              const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}'   );
-              var content = document.getElementById('main');
+              {% if object.background %}
+                  const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}'   );
+                  var content = document.getElementById('main');
+              {% endif %}
 
 
               {% for poi in object.poi_set.all %}
