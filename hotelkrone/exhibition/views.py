@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
-from django.views.generic.base import RedirectView
+from django.views.generic import DetailView
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import get_object_or_404
+
 
 from . import models
 
@@ -63,3 +64,19 @@ class HotelKrone(DetailView):
         context['students'] = models.Student.objects.all()
         context['orte_list'] = models.Orte.objects.exclude(pk=self.get_object().id)
         return context
+
+
+def tracked_file_counter(request, pk):
+    tracked_file = get_object_or_404(models.TrackedFile, pk=pk)
+    return JsonResponse({'counter': tracked_file.counter})
+
+
+def tracked_file_download(request, pk):
+    tracked_file = get_object_or_404(models.TrackedFile, pk=pk)
+    tracked_file.counter += 1
+    tracked_file.save()
+    # Let NGINX handle it
+    response = HttpResponse()
+    response['X-Accel-Redirect'] = f'/{tracked_file.file.url}'
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(tracked_file.file.name)
+    return response

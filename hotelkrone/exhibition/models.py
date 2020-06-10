@@ -129,3 +129,24 @@ class POI(models.Model):
 
     def get_absolute_url(self):
         return reverse("poi", kwargs={"pk": self.id})
+
+
+class TrackedFile(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+    file = models.FileField(upload_to='files', blank=True, null=True)
+    counter = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name = _("tracked file")
+        verbose_name_plural = _("tracked files")
+        ordering = ["name"]
+
+    def __str__(self):
+        return "{} - {}".format(self.student, self.name)
+
+    def __repr__(self):
+        return "<Media: {} - {}>".format(self.student, self.name)
+
+    def get_absolute_url(self):
+        return reverse("file", kwargs={"pk": self.id})

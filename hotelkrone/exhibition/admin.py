@@ -28,3 +28,9 @@ class POIAdmin(admin.ModelAdmin):
     list_display = ["name", "orte", "media"]
     search_fields = ["name"]
     list_filter = ["orte"]
+
+
+@admin.register(models.TrackedFile)
+class TrackedFileAdmin(admin.ModelAdmin):
+    list_display = ["name", "student", "counter"]
+    list_filter = ["student"]

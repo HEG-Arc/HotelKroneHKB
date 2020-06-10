@@ -8,7 +8,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from hotelkrone.exhibition.views import Zimmer, Orte, POI, HotelKrone
+from hotelkrone.exhibition.views import Zimmer, Orte, POI, HotelKrone, tracked_file_counter, tracked_file_download
 from hotelkrone.exhibition.models import Student
 
 info_dict = {
@@ -34,6 +34,8 @@ urlpatterns = [
 
     path("orte/<slug:slug>/", Orte.as_view(), name='orte'),
     path("artwork/<int:pk>/", POI.as_view(), name='poi'),
+    path("file/<int:pk>/download", tracked_file_download, name='file'),
+    path("file/<int:pk>/counter", tracked_file_counter, name='file-counter'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
