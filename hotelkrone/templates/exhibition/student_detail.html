@@ -69,21 +69,10 @@
                             <img src="{{ media.image.url }}" class="d-block w-100">
                         {% elif media.sound %}
 
-                              <audio id="background-audio" controls>
+                              <audio id="background-audio" controls style="outline: none;">
                                 <source src="{{ media.sound.url }}" type="audio/mpeg">
                               </audio>
-                              <script>
-                              var button = document.getElementById("play-button");
-                              var audio = document.getElementById("background-audio");
 
-                              button.addEventListener("click", function(){
-                                if(audio.paused){
-                                  audio.play();
-                                } else {
-                                  audio.pause();
-                                }
-                              });
-                              </script>
                         {% else %}
 
                             {{ media.html_embed|safe }}
