@@ -290,7 +290,9 @@
                     img{{ poi.id }}.style.position = "absolute";
                     img{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
                     img{{ poi.id }}.style.left = "{{poi.position_x}}%";
-                    img{{ poi.id }}.style.class = "img-fluid";
+                    img{{ poi.id }}.style.maxWidth = "100%";
+                    img{{ poi.id }}.style.maxHeight = "100%";
+                    img{{ poi.id }}.classList.add( "img-fluid");
 
                  {% if poi.this_is_a_sound %}
                     var sound{{ poi.id }}      = document.createElement('audio');
@@ -316,6 +318,7 @@
                      };
                  {% endif %}
              {% endfor %}
+
           </script>
 
       {% elif object.animation == 'INFI' %}
