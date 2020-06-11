@@ -93,23 +93,21 @@
                      </div>
                 {% elif object.animation == 'INFI' %}
                     {% if object.background %}
-                        {% if object.background and  object.name == 'Spa'%}
-                        <div id="map"></div>
-                        <script type="text/javascript">
-                          var bounds = [[0,0], [100,1600]];
-                          var map = L.map('map', {
-                            crs: L.CRS.Simple,
-                            maxBounds: bounds,
-                            maxBoundsViscosity: 1.0,
-                            minZoom:2,
-                            maxZoom: 5
-                          });
+                        {%if  object.name == 'Spa'%}
+                            <div id="map"></div>
+                            <script type="text/javascript">
+                              var bounds = [[0,0], [1000,16000]];
+                              var map = L.map('map', {
+                                crs: L.CRS.Simple,
+                                maxBounds: bounds,
+                                maxBoundsViscosity: 1.0
 
+                              });
 
-                          var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                          map.fitBounds(bounds);
-                          map.setView([55,124]);
-                        </script>
+                              var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
+                              map.fitBounds(bounds);
+                              map.setView([55,124]);
+                            </script>
 
                         {% else %}
                             <div id="map"></div>
@@ -292,6 +290,7 @@
                     img{{ poi.id }}.style.position = "absolute";
                     img{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
                     img{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                    img{{ poi.id }}.style.class = "img-fluid";
 
                  {% if poi.this_is_a_sound %}
                     var sound{{ poi.id }}      = document.createElement('audio');
