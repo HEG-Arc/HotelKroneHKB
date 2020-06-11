@@ -194,8 +194,10 @@
               let x = document.getElementById(mediaId);
               if (x.style.display === "none") {
                 x.style.display = "block";
+                document.body.classList.add("noscroll");
               } else {
                 x.style.display = "none";
+                document.body.classList.remove("noscroll");
               }
           }
       </script>
