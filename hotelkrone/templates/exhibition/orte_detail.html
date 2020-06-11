@@ -295,6 +295,9 @@
                     img{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
                     img{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
                     img{{ poi.id }}.classList.add( "img-fluid");
+                    {% if poi.css_class %}
+                        img{{ poi.id }}.classList.add("{{ poi.css_class }}");
+                    {% endif %}
 
                  {% if poi.this_is_a_sound %}
                     var sound{{ poi.id }}      = document.createElement('audio');
@@ -331,7 +334,10 @@
 
                     iconSize:     [{{poi.position_w}}, {{poi.position_h}}], // size of the icon
                     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor
+                    {% if poi.css_class %}
+                        className:  '{{ poi.css_class }}',
+                    {% endif %}
                 });
 
 
@@ -391,7 +397,7 @@
 
                   infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
-                  {% if not poi.hide_overlay and poi.this_is_a_sound and poi.url_link%}
+                  {% if not poi.hide_overlay and not poi.this_is_a_sound and not poi.url_link%}
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} | {{ poi.media.name }} | {{poi.media.student.first_name}} {{poi.media.student.first_name}}", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
                               toggleOverlay('media{{ poi.pk }}');
@@ -425,7 +431,9 @@
                       } );
 
                   {% endif %}
-
+                  {% if poi.css_class %}
+                      infospot{{ poi.pk }}.setCursorHoverStyle('{{ poi.css_class }}');
+                  {% endif %}
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
 
