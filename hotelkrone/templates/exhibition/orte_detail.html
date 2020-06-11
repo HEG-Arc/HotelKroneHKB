@@ -307,7 +307,7 @@
                     };
                  {% elif poi.url_link %}
                      img{{ poi.id }}.onclick = function(){
-                            window.open ('{{ poi.url_link }}');
+                            window.location.href = "{{ poi.url_link }}";
                     };
 
                  {% else %}
@@ -349,7 +349,7 @@
                         });
                 {% elif poi.url_link %}
                     L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
-                        window.open ('{{ poi.url_link }}');
+                        window.location.href = "{{ poi.url_link }}";
                     });
 
 
@@ -414,7 +414,7 @@
                         }
                       } );
                   {% elif poi.url_link %}
-                         window.open ('{{ poi.url_link }}');
+                         window.location.href = "{{ poi.url_link }}";
                   {% endif %}
 
                   panorama.add( infospot{{ poi.pk }} );
