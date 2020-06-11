@@ -115,6 +115,7 @@ class POI(models.Model):
     poi_image = models.ImageField(upload_to='poi', blank=True, null=True)
     this_is_a_sound = models.BooleanField(default=False)
     hide_overlay = models.BooleanField(default=False)
+    url_link = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         verbose_name = _("POI")

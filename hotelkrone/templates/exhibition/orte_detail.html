@@ -93,23 +93,21 @@
                      </div>
                 {% elif object.animation == 'INFI' %}
                     {% if object.background %}
-                        {% if object.background and  object.name == 'Spa'%}
-                        <div id="map"></div>
-                        <script type="text/javascript">
-                          var bounds = [[0,0], [100,1600]];
-                          var map = L.map('map', {
-                            crs: L.CRS.Simple,
-                            maxBounds: bounds,
-                            maxBoundsViscosity: 1.0,
-                            minZoom:2,
-                            maxZoom: 5
-                          });
+                        {%if  object.name == 'Spa'%}
+                            <div id="map"></div>
+                            <script type="text/javascript">
+                              var bounds = [[0,0], [1000,16000]];
+                              var map = L.map('map', {
+                                crs: L.CRS.Simple,
+                                maxBounds: bounds,
+                                maxBoundsViscosity: 1.0
 
+                              });
 
-                          var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                          map.fitBounds(bounds);
-                          map.setView([55,124]);
-                        </script>
+                              var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
+                              map.fitBounds(bounds);
+                              map.setView([55,124]);
+                            </script>
 
                         {% else %}
                             <div id="map"></div>
@@ -294,6 +292,9 @@
                     img{{ poi.id }}.style.position = "absolute";
                     img{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
                     img{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                    img{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
+                    img{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
+                    img{{ poi.id }}.classList.add( "img-fluid");
 
                  {% if poi.this_is_a_sound %}
                     var sound{{ poi.id }}      = document.createElement('audio');
@@ -308,12 +309,18 @@
                           sound{{ poi.id }}.pause();
                         }
                     };
+                 {% elif poi.url_link %}
+                     img{{ poi.id }}.onclick = function(){
+                            window.location.href = "{{ poi.url_link }}";
+                    };
+
                  {% else %}
                      img{{ poi.id }}.onclick = function(){
                         toggleOverlay('media{{ poi.pk }}');
                      };
                  {% endif %}
              {% endfor %}
+
           </script>
 
       {% elif object.animation == 'INFI' %}
@@ -345,6 +352,12 @@
                               sound{{ poi.id }}.pause();
                             }
                         });
+                {% elif poi.url_link %}
+                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                        window.location.href = "{{ poi.url_link }}";
+                    });
+
+
                 {%else %}
 
                     L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
@@ -378,7 +391,7 @@
 
                   infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
-                  {% if not poi.hide_overlay %}
+                  {% if not poi.hide_overlay and poi.this_is_a_sound and poi.url_link%}
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} | {{ poi.media.name }} | {{poi.media.student.first_name}} {{poi.media.student.first_name}}", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
                               toggleOverlay('media{{ poi.pk }}');
@@ -405,6 +418,12 @@
 
                         }
                       } );
+                  {% elif poi.url_link %}
+                      infospot{{ poi.pk }}.addEventListener( 'click', function(){
+
+                        window.location.href = "{{ poi.url_link }}";
+                      } );
+
                   {% endif %}
 
                   panorama.add( infospot{{ poi.pk }} );
