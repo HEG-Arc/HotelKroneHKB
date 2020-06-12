@@ -96,17 +96,19 @@
                         {%if  object.name == 'Spa'%}
                             <div id="map"></div>
                             <script type="text/javascript">
-                              var bounds = [[0,0], [1000,16000]];
+                              var elmnt = document.getElementById("map");
+
+                              var bounds = [[0,0], [elmnt.clientHeight,elmnt.clientHeight*16000/1000]];
                               var map = L.map('map', {
                                 crs: L.CRS.Simple,
                                 maxBounds: bounds,
-                                maxBoundsViscosity: 1.0
+                                maxBoundsViscosity: 1,
 
                               });
 
                               var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
                               map.fitBounds(bounds);
-                              map.setView([55,124]);
+                              map.setView([0,0]);
                             </script>
 
                         {% else %}
@@ -144,11 +146,11 @@
           <div id="corner-down-left">
             <img src="{% static 'media/corner-bl.png' %}" width="100%" height="100%" alt="">
           </div>
-		  
+
           <div id="corner-down-right">
             <img src="{% static 'media/corner-br.png' %}" width="100%" height="100%" alt="">
           </div>
-		  
+
           <div id="ground">
             {% if object.entrance %}
             <div id="groundnames" class="namesnew">
@@ -167,23 +169,13 @@
             </div>
             {% endif %}
 
-            <div id="footer">
-              {% if object.entrance %}
-              <p>
-                  <p>
-                      <span class="spacename"><img class="spacename" src="{% static 'media/logo-hkb.png' %}" width="200px"></span>
-                      <img src="{% static 'media/logo-kl.png' %}" width="155px">
-                  </p>
-              </p>
-              {% endif %}
-              <p>A project by the <a class="linkund spacename" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts</a> hosted by the <a class="linkund spacename" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a> <a href="#impressum"  class="linkund" data-toggle="modal">Impressum</a> © by HKB and the authors 2020</p>
-            </div>
+            {% include "exhibition/snippet_footer.html" %}
           </div>
         </div>
       </div>
 
 
-    {% include "exhibition/snippet_impressum.html" with close_caption=object.name %}
+    {% include "exhibition/snippet_impressum.html" %}
         <!-- Fin Calque media & impressum -->
 
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -432,7 +424,7 @@
 
                   {% endif %}
                   {% if poi.css_class %}
-                      infospot{{ poi.pk }}.setElementStyle('cursor', self, 'crosshair');
+
                   {% endif %}
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}

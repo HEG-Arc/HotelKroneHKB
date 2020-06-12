@@ -1,0 +1,12 @@
+{% load static %}
+            <div id="footer">
+              {% if object.entrance %}
+              <p>
+                  <p>
+                      <span class="spacename"><img class="spacename" src="{% static 'media/logo-hkb.png' %}" width="200px"></span>
+                      <img src="{% static 'media/logo-kl.png' %}" width="155px">
+                  </p>
+              </p>
+              {% endif %}
+              <p>A project by the <a class="linkund spacename" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts HKB</a> Hosted by <a class="linkund spacename" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a> <a href="#impressum"  class="linkund" onclick="toggleOverlay('impressum'); return false">Impressum</a></p>
+            </div>
