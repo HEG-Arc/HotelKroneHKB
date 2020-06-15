@@ -111,12 +111,14 @@
 
                           map.fitBounds(bounds);
 
-                          {% if  object.zoom != 1 %}
-                              map.setZoom({{object.zoom}});
-                          {% endif  %}
 
                           {% if   object.position_x and  object.position_y%}
-                              map.setView([{{object.position_x}}, {{object.position_y}}]);
+                             {% if  object.zoom != 1 %}
+                                map.setView([{{object.position_x}}, {{object.position_y}}],{{object.zoom}});
+                             {% else %}
+                                 map.setView([{{object.position_x}}, {{object.position_y}}]);
+                            {% endif  %}
+
                           {% endif  %}
 
 
