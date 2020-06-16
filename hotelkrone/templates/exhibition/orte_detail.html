@@ -436,8 +436,12 @@
       {% endif %}
       <!-- Preload navigation right and left -->
       <div style="display: none;">
-          <img src="{{ object.next.background.url }}" />
-          <img src="{{ object.previous.background.url }}" />
+          {% if object.next.background %}
+            <img src="{{ object.next.background.url }}" />
+          {% endif %}
+          {% if object.previous.background %}
+            <img src="{{ object.previous.background.url }}" />
+          {% endif %}
       </div>
 
   </body>
