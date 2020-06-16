@@ -93,39 +93,38 @@
                      </div>
                 {% elif object.animation == 'INFI' %}
                     {% if object.background %}
-                        {%if  object.name == 'Spa'%}
-                            <div id="map"></div>
-                            <script type="text/javascript">
-                              var elmnt = document.getElementById("map");
 
-                              var bounds = [[0,0], [elmnt.clientHeight,elmnt.clientHeight*16000/1000]];
-                              var map = L.map('map', {
-                                crs: L.CRS.Simple,
-                                maxBounds: bounds,
-                                maxBoundsViscosity: 1,
+                        <div id="map"></div>
+                        <script type="text/javascript">
 
-                              });
+                            var clientHeight = document.getElementById('map').clientHeight;
+                            var clientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * clientHeight ;
+                          var bounds = [[0,0], [clientHeight,clientWidth]];
+                          var map = L.map('map', {
+                            crs: L.CRS.Simple,
+                            maxBounds: bounds,
+                            maxBoundsViscosity: 1.0
 
-                              var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                              map.fitBounds(bounds);
-                              map.setView([0,0]);
-                            </script>
+                          });
 
-                        {% else %}
-                            <div id="map"></div>
-                            <script type="text/javascript">
-                              var bounds = [[0,0], [1000,1000]];
-                              var map = L.map('map', {
-                                crs: L.CRS.Simple,
-                                maxBounds: bounds,
-                                maxBoundsViscosity: 1.0
-                              });
+                          var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
 
-                              var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-                              map.fitBounds(bounds);
+                          map.fitBounds(bounds);
 
-                            </script>
-                        {% endif %}
+
+                          {% if   object.position_x and  object.position_y%}
+                             {% if  object.zoom != 1 %}
+                                map.setView([{{object.position_x}}, {{object.position_y}}],{{object.zoom}});
+                             {% else %}
+                                 map.setView([{{object.position_x}}, {{object.position_y}}]);
+                            {% endif  %}
+
+                          {% endif  %}
+
+
+                        </script>
+
+
                     {% endif %}
                 {% elif object.animation == 'EQUI' %}
                 {% endif %}

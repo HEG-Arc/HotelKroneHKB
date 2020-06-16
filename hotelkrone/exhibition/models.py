@@ -82,6 +82,12 @@ class Orte(models.Model):
     entrance = models.BooleanField(default=False)
     slug = models.SlugField(null=False, unique=True)
     order = models.IntegerField(default = 0)
+    map_height = models.IntegerField(blank=True, null=True)
+    map_width = models.IntegerField(blank=True, null=True)
+    position_x = models.IntegerField(blank=True, null=True)
+    position_y = models.IntegerField(blank=True, null=True)
+    zoom = models.IntegerField(default=1)
+
 
     class Meta:
         verbose_name = _("orte")
