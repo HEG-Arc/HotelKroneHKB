@@ -435,6 +435,11 @@
           </script>
 
       {% endif %}
+      <!-- Preload navigation right and left -->
+      <div style="display: none;">
+          <img src="{{ object.next.background.url }}" />
+          <img src="{{ object.previous.background.url }}" />
+      </div>
 
   </body>
 </html>
