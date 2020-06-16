@@ -62,7 +62,7 @@ class HotelKrone(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['students'] = models.Student.objects.all()
-        context['orte_list'] = models.Orte.objects.exclude(pk=self.get_object().id)
+        context['orte_list'] = models.Orte.objects.exclude(pk=self.get_object().id).filter(hide_on_entrance=False)
         return context
 
 
