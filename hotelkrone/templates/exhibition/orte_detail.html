@@ -386,7 +386,7 @@
                   infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
                   infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
                   {% if not poi.hide_overlay and not poi.this_is_a_sound and not poi.url_link%}
-                          infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} | {{ poi.media.name }} | {{poi.media.student.first_name}} {{poi.media.student.first_name}}", 50 );
+                          infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
                               toggleOverlay('media{{ poi.pk }}');
                           } );
