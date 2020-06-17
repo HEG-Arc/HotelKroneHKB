@@ -193,9 +193,6 @@
           }
       </script>
 	{%  if object.background_sound %}
-      <div>
-        <button id="play-button">Play/Pause</button>
-      </div>
       <audio id="background-audio">
         <source src="{{ object.background_sound.url }}" type="audio/mpeg">
       </audio>
@@ -225,7 +222,7 @@
 
 
                         {% if poi.media.image %}
-                        <img src="{{ poi.media.image.url }}" >
+                        <img src="{{ poi.media.image.url }}" class="overlay-image" />
                         {% else %}
                             {{ poi.media.html_embed|safe }}
                         {% endif %}
