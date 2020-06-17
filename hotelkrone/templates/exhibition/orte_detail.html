@@ -425,7 +425,14 @@
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
 
-              const viewer = new PANOLENS.Viewer({container: document.getElementById("room"), controlBar: false, output: 'console'});
+
+              const viewer = new PANOLENS.Viewer({
+                  container: document.getElementById("room"),
+                  controlBar: false,
+                  output: 'console',
+                  autoHideInfospot: false
+
+              });
               viewer.add( panorama );
 
           </script>
