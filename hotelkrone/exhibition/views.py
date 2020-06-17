@@ -1,6 +1,6 @@
 from django.views.generic import DetailView
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 
 from . import models
@@ -76,7 +76,7 @@ def tracked_file_download(request, pk):
     tracked_file.counter += 1
     tracked_file.save()
     # Let NGINX handle it
-    response = HttpResponse('')
-    response['X-Accel-Redirect'] = f'{tracked_file.file.url}'
-    response['Content-Type'] = ''
-    return response
+    # response = HttpResponse('')
+    # response['X-Accel-Redirect'] = f'{tracked_file.file.url}'
+    # response['Content-Type'] = ''
+    return redirect(f'{tracked_file.file.url}')
