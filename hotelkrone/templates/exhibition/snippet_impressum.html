@@ -5,18 +5,7 @@
                   <div class="overlay-content impressum">
                       <p><span class="overlay-title">Impressum</span></p>
                       <div class="overlay-description">
-                        <p>Instructions: download the following file <a href="..." class="linkoverlay">mybook.pdf</a> and print it at home on 100% size</p>
-                        <dl>
-                          <dt>Head of Department</dt>
-                          <dd>Anselm Stalder</dd>
-
-                          <dt>Teachers</dt>
-                          <dd>A sea serpent.</dd>
-                          <dd>An old Owl.</dd>
-
-                          <dt>Design</dt>
-                          <dd>A giant owl-like creature.</dd>
-                        </dl>
+                        {{ contents.impressum|safe }}
                       </div>
                   </div>
                 </div>

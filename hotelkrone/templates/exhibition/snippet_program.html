@@ -1,0 +1,12 @@
+{% load static %}
+              <div class="overlayframe" id="program" style="display:block;">
+                <div class="overlay">
+                  <a href="#" class="linkoverlay" onclick="toggleOverlay('program'); return false"><img class="overlay-close" src="{% static 'media/close-white.png' %}"></a>
+                  <div class="overlay-content program">
+                      <p><span class="overlay-title">Programm</span></p>
+                      <div class="overlay-description">
+                        {{ contents.program|safe }}
+                      </div>
+                  </div>
+                </div>
+              </div>

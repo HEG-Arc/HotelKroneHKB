@@ -34,3 +34,8 @@ class POIAdmin(admin.ModelAdmin):
 class TrackedFileAdmin(admin.ModelAdmin):
     list_display = ["name", "student", "counter"]
     list_filter = ["student"]
+
+
+@admin.register(models.ContentManagement)
+class ContentManagementAdmin(admin.ModelAdmin):
+    pass

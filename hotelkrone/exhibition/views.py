@@ -36,6 +36,7 @@ class Zimmer(DetailView):
                 next = None
         context['prev_student'] = prev
         context['next_student'] = next
+        context['contents'] = models.ContentManagement.objects.first()
 
         return context
 
@@ -47,6 +48,7 @@ class Orte(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['students'] = models.Student.objects.all()
+        context['contents'] = models.ContentManagement.objects.first()
         return context
 
 
@@ -63,6 +65,7 @@ class HotelKrone(DetailView):
         context = super().get_context_data(**kwargs)
         context['students'] = models.Student.objects.all()
         context['orte_list'] = models.Orte.objects.exclude(pk=self.get_object().id).filter(hide_on_entrance=False)
+        context['contents'] = models.ContentManagement.objects.first()
         return context
 
 

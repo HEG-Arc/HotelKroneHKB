@@ -159,3 +159,13 @@ class TrackedFile(models.Model):
 
     def get_absolute_url(self):
         return reverse("file", kwargs={"pk": self.id})
+
+
+class ContentManagement(models.Model):
+    program = models.TextField(blank=True, null=True)
+    display_program = models.BooleanField(default=True)
+    impressum = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("content management")
+        verbose_name_plural = _("contents management")
