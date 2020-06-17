@@ -76,7 +76,7 @@ def tracked_file_download(request, pk):
     tracked_file.counter += 1
     tracked_file.save()
     # Let NGINX handle it
-    response = HttpResponse()
-    response['X-Accel-Redirect'] = f'/{tracked_file.file.url}'
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(tracked_file.file.name)
+    response = HttpResponse('')
+    response['X-Accel-Redirect'] = f'{tracked_file.file.url}'
+    response['Content-Type'] = ''
     return response
