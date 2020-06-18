@@ -432,11 +432,13 @@
                   {% endif %}
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
-                var lookAtPositions = new THREE.Vector3({{ object.position_x }}, {{ object.position_y }},{{ object.position_z }});
+              {% if object.position_x and  object.position_y and object.position_z%}
+                    var lookAtPositions = new THREE.Vector3({{ object.position_x }}, {{ object.position_y }},{{ object.position_z }});
 
-                panorama.addEventListener( 'enter-fade-start', function(){
-                    viewer.tweenControlCenter( lookAtPositions, 0 );
-                } );
+                    panorama.addEventListener( 'enter-fade-start', function(){
+                        viewer.tweenControlCenter( lookAtPositions, 0 );
+                    } );
+              {% endif %}
 
               const viewer = new PANOLENS.Viewer({
                   container: document.getElementById("room"),
