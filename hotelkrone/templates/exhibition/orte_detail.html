@@ -384,6 +384,7 @@
               {% endif %}
 
 
+
               {% for poi in object.poi_set.all %}
 
 
@@ -428,7 +429,11 @@
                   {% endif %}
                   panorama.add( infospot{{ poi.pk }} );
               {% endfor %}
+                var lookAtPositions = new THREE.Vector3({{ object.position_x }}, {{ object.position_y }},{{ object.position_z }});
 
+                panorama.addEventListener( 'enter-fade-start', function(){
+                    viewer.tweenControlCenter( lookAtPositions, 0 );
+                } );
 
               const viewer = new PANOLENS.Viewer({
                   container: document.getElementById("room"),
