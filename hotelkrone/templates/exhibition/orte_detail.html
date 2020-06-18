@@ -341,6 +341,9 @@
                     sound{{ poi.id }}.id       = 'audio-player';
                     sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
                     sound{{ poi.id }}.type     = 'audio/mpeg';
+                    {% if poi.orte.name == "Spa" %}
+                        sound{{ poi.id }}.loop = true;
+                    {% endif %}
                     block.appendChild(sound{{ poi.id }});
 
                     L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
