@@ -87,6 +87,7 @@ class Orte(models.Model):
     map_width = models.IntegerField(blank=True, null=True)
     position_x = models.IntegerField(blank=True, null=True)
     position_y = models.IntegerField(blank=True, null=True)
+    position_z = models.IntegerField(blank=True, null=True)
     zoom = models.IntegerField(default=1)
 
 
@@ -124,6 +125,7 @@ class POI(models.Model):
     this_is_a_sound = models.BooleanField(default=False)
     hide_overlay = models.BooleanField(default=False)
     url_link = models.CharField(max_length=100, blank=True, null=True)
+    this_specific_class_endless = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("POI")

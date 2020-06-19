@@ -12,3 +12,7 @@
   top: 0px;
   z-index: 900;
 }
+.endless_map_overlay {
+  overflow: auto;
+  height: 200px;
+}
