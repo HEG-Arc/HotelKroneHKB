@@ -3,7 +3,9 @@
                   <a href="#" class="linkoverlay program-close" onclick="toggleOverlay('program'); return false">X</a>
                   <span class="program-title">Live Events Program</span>
                   <div class="program">
-                    {{ contents.program|safe }}
+                    <div class="program-description">
+                      {{ contents.program|safe }}
+                    </div>
                   </div>
                 </div>
               </div>
