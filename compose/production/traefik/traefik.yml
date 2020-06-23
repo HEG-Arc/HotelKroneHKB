@@ -63,6 +63,16 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
+    matomo-secure-router:
+      rule: "Host(`stats.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: matomo
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
     home-router:
       rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
       
@@ -120,7 +130,11 @@ http:
     nginx:
       loadBalancer:
         servers:
-          - url: http://nginx:9000
+          - url: http://nginx:8000
+    matomo:
+      loadBalancer:
+        servers:
+          - url: http://matomo:80
     restreamer:
       loadBalancer:
         servers:
