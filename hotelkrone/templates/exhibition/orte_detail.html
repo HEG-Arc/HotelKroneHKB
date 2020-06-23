@@ -339,6 +339,10 @@
                     {% endif %}
                 });
 
+                var lng = ( {{poi.position_x}} / 100 ) * clientWidth ;
+                var lat = ( {{poi.position_y}} /100 ) * clientHeight ;
+                    console.log(lng + " - " + lat)
+
 
                 {% if poi.this_is_a_sound %}
 
@@ -353,7 +357,7 @@
                     {% endif %}
                     block.appendChild(sound{{ poi.id }});
 
-                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                        if(sound{{ poi.id }}.paused){
                               sound{{ poi.id }}.play();
                             } else {
@@ -361,14 +365,14 @@
                             }
                         });
                 {% elif poi.url_link %}
-                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         window.location.href = "{{ poi.url_link }}";
                     });
 
 
                 {%else %}
 
-                    L.marker([{{poi.position_x}}, {{poi.position_y}}], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         console.log(e.latlng);
                         toggleOverlay('media{{ poi.pk }}');
                     });
@@ -379,7 +383,8 @@
                   var coord = e.latlng;
                   var lat = coord.lat;
                   var lng = coord.lng;
-                  console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+                    //console.log(" X : "+ clientWidth + "Y : "+ clientHeight)
+                  console.log("X : " + (lng/clientWidth) * 100 + "  Y :" + (lat/clientHeight) *100);
                 });
 
           </script>
