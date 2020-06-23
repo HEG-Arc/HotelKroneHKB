@@ -19,6 +19,8 @@ certificatesResolvers:
       # https://docs.traefik.io/master/https/acme/#httpchallenge
       httpChallenge:
         entryPoint: web
+api:
+  dashboard: true
 
 http:
   routers:
@@ -122,6 +124,13 @@ http:
       headers:
         hostsProxyHeaders: ["X-CSRFToken"]
 
+
+
+
+
+
+
+
   services:
     django:
       loadBalancer:
@@ -130,7 +139,7 @@ http:
     nginx:
       loadBalancer:
         servers:
-          - url: http://nginx:8000
+          - url: http://nginx:9000
     matomo:
       loadBalancer:
         servers:
@@ -145,3 +154,4 @@ providers:
   file:
     filename: /etc/traefik/traefik.yml
     watch: true
+  docker: {}
