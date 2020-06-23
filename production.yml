@@ -52,9 +52,18 @@ services:
       - django
     volumes:
       - production_traefik:/etc/traefik/acme
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
+    labels:
+    # Dashboard
+      - "traefik.http.routers.traefik.rule=Host(`traefik.hotelkrone.be`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik.entrypoints=web-secure"
+      - "traefik.http.routers.traefik.middlewares=authtraefik"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=user:$$apr1$$q8eZFHjF$$Fvmkk//V6Btlaf2i/ju5n/" # user/password
 
   redis:
     image: redis:5.0
