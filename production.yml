@@ -4,6 +4,8 @@ volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
+  production_mariadb: {}
+  production_matomo: {}
 
 services:
   django:
@@ -39,6 +41,7 @@ services:
     image: hotelkrone_production_nginx
     volumes:
      - /home/hkb/media:/usr/share/nginx/html:ro
+     - production_matomo:/usr/share/nginx/htmlmatomo:ro
 
   traefik:
     build:
@@ -60,6 +63,26 @@ services:
     image: datarhei/restreamer
     ports:
      - "0.0.0.0:1935:1935"
-    environment:
-     - RS_PASSWORD=hellostream
+    env_file:
+     - ./.envs/.production/.restreamer
 
+  mariadb:
+    image: mariadb
+    command: --max-allowed-packet=64MB
+    restart: always
+    volumes:
+      - production_mariadb:/var/lib/mysql
+    env_file:
+      - ./.envs/.production/.matomo
+
+  matomo:
+    image: matomo
+    restart: always
+    links:
+      - mariadb
+    volumes:
+      - production_matomo:/var/www/html
+    environment:
+      - MATOMO_DATABASE_HOST=mariadb
+    env_file:
+      - ./.envs/.production/.matomo
