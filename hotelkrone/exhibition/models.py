@@ -126,6 +126,7 @@ class POI(models.Model):
     hide_overlay = models.BooleanField(default=False)
     url_link = models.CharField(max_length=100, blank=True, null=True)
     this_specific_class_endless = models.BooleanField(default=False)
+    this_fullscreen_video = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("POI")

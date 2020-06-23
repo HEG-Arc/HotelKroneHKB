@@ -237,6 +237,28 @@
       {% endif %}
 
       {% for poi in object.poi_set.all %}
+          {% if poi.this_fullscreen_video %}
+                <!-- overlay fullscreen -->
+              <div class=overlayframe-fs id="media{{ poi.pk }}" style="display:none;">
+                <div class="overlay-fs">
+                  <div class="overlay-topline-fs">
+                    <a href="..." class="linkoverlayclose overlay-close-fs overlay-back-txt" onclick="toggleOverlay('media{{ poi.pk }}'); return false">X </a>
+                    <a href="" class="overlay-student-fs linkoverlay overlay-back-txt">{{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-title-fs overlay-back-txt">{{poi.media.name}}</span>
+                  </div>
+                  <div class="overlay-content-fs w-100">
+
+                      {% if poi.media.image %}
+                        <img src="{{ poi.media.image.url }}" class="overlay-image" />
+                        {% else %}
+                            {{ poi.media.html_embed|safe }}
+                        {% endif %}
+
+                  </div>
+                </div>
+              </div>
+              <!-- Fin fullscreen -->
+
+          {% else %}
               <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
                 <div class="overlay">
                   <a href="#" class="linkoverlayclose overlay-close" onclick="toggleOverlay('media{{ poi.pk }}'); return false">X</a>
@@ -261,7 +283,7 @@
                   </div>
                 </div>
               </div>
-
+        {% endif  %}
       {% endfor %}
 
 
