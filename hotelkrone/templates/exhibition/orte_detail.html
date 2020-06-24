@@ -271,7 +271,7 @@
 
 
                         {% if poi.media.image %}
-                        <img src="{{ poi.media.image.url }}" class="overlay-image" />
+                        <img src="{{ poi.media.image.url }}" {% if not poi.this_specific_class_endless %} class="overlay-image" {% endif %}/>
                         {% else %}
                             {{ poi.media.html_embed|safe }}
                         {% endif %}
