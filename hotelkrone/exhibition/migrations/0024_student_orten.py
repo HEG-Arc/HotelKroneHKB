@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('exhibition', '0022_poi_this_fullscreen_video'),
+        ('exhibition', '0023_poi_zoom_float'),
     ]
 
     operations = [
