@@ -109,7 +109,8 @@
                             zoomControl: false,
                             touchZoom:false,
                             doubleClickZoom: false,
-                            scrollWheelZoom: false
+                            scrollWheelZoom: false,
+                              zoomSnap: 0.25
 
                           });
 
@@ -120,10 +121,13 @@
 
 
                           {% if   object.position_x and  object.position_y%}
+                              var lngView = ( {{object.position_x}} / 100 ) * clientWidth ;
+                              var latView = ( {{object.position_y}} /100 ) * clientHeight ;
+
                              {% if  object.zoom != 1 %}
-                                map.setView([{{object.position_x}}, {{object.position_y}}],{{object.zoom}});
+                                map.setView([lngView, latView],{{object.zoom}});
                              {% else %}
-                                 map.setView([{{object.position_x}}, {{object.position_y}}]);
+                                 map.setView([lngView, latView]);
                             {% endif  %}
 
                           {% endif  %}
@@ -424,7 +428,7 @@
                   var coord = e.latlng;
                   var lat = coord.lat;
                   var lng = coord.lng;
-                    //console.log(" X : "+ clientWidth + "Y : "+ clientHeight)
+                    console.log(e.latlng);
                   console.log("X : " + (lng/clientWidth) * 100 + "  Y :" + (lat/clientHeight) *100);
                 });
 
@@ -450,6 +454,7 @@
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
                               toggleOverlay('media{{ poi.pk }}');
+                              infospot{{ poi.pk }}.removeHoverElement();
                           } );
                   {% endif %}
 

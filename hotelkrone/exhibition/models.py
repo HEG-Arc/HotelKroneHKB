@@ -89,7 +89,7 @@ class Orte(models.Model):
     position_x = models.IntegerField(blank=True, null=True)
     position_y = models.IntegerField(blank=True, null=True)
     position_z = models.IntegerField(blank=True, null=True)
-    zoom = models.IntegerField(default=1)
+    zoom = models.FloatField(default=1)
 
 
     class Meta:
