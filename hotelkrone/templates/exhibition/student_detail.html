@@ -51,10 +51,10 @@
 
       <div id="middle">
 			  <div id="mar-left">
-          {%  if not first_orte %}
+          {%  if not object.orten %}
             <div id="txtleft"><span class="greytext">x</span></div>
           {% else %}
-            <div id="txtleft"><a href="{{ first_orte.orte.get_absolute_url }}" class="linkstudent">{{ first_orte.orte.name }}</a></div>
+            <div id="txtleft"><a href="{{ object.orten.first.get_absolute_url }}" class="linkstudent">{{ object.orten.first.name }}</a></div>
           {% endif %}
         </div>
 
@@ -124,10 +124,10 @@
                 </div>
             </div>
 			      <div id="mar-right">
-              {%  if not second_orte %}
+              {%  if not object.orten or object.orten.first == object.orten.last %}
                 <div id="txtright"><span class="greytext">x</span></div>
               {% else %}
-                <div id="txtright"><a href="{{ second_orte.orte.get_absolute_url }}" class="linkstudent">{{ second_orte.orte.name }}</a></div>
+                <div id="txtright"><a href="{{ object.orten.last.get_absolute_url }}" class="linkstudent">{{ object.orten.last.name }}</a></div>
               {% endif %}
             </div>
 			

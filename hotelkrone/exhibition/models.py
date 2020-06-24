@@ -18,6 +18,7 @@ class Student(models.Model):
     hover_image = models.ImageField(upload_to='zimmern', blank=True, null=True)
     slug = models.SlugField(null=False, unique=True)
     last_update = models.DateTimeField(auto_now=True)
+    orten = models.ManyToManyField("Orte")
 
     class Meta:
         verbose_name = _("student")

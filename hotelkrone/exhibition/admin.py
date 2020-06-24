@@ -9,6 +9,11 @@ class StudentAdmin(admin.ModelAdmin):
     list_display = ["first_name", "last_name", "instagram_handle",]
     search_fields = ["last_name"]
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "orten":
+            kwargs["queryset"] = models.Orte.objects.filter(poi__media__student_id=request.resolver_match.kwargs['object_id']).distinct()
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
 
 @admin.register(models.Media)
 class MediaAdmin(admin.ModelAdmin):

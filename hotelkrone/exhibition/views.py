@@ -12,8 +12,6 @@ class Zimmer(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['first_orte'] = models.POI.objects.filter(media__student=self.get_object()).first()
-        context['second_orte'] = models.POI.objects.filter(media__student=self.get_object()).last()
         context['artworks'] = models.Media.objects.filter(student=self.get_object(),
                                                           display_in_zimmer=True).order_by("order", "name")
 
