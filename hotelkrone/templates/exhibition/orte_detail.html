@@ -50,7 +50,6 @@
   
   
   <body>
-
       <div id="main">
         <div id="topline">
           <div id="corner-top-left">
@@ -215,6 +214,11 @@
                 document.body.classList.remove("noscroll");
                 stopVideos();
               }
+          }
+
+          if (!document.cookie.split('; ').find(row => row.startsWith('hideProgram'))) {
+            toggleOverlay('program');
+            document.cookie = "hideProgram=true; max-age=86400";
           }
 
       </script>

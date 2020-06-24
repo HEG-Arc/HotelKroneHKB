@@ -8,5 +8,5 @@
                   </p>
               </p>
               {% endif %}
-              <p>A project by the <a class="linkund spacename" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts HKB</a> Hosted by <a class="linkund spacename" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a> <a href="#impressum"  class="linkund" onclick="toggleOverlay('impressum'); return false">Impressum</a></p>
+              <p>A project by the <a class="linkund spacename" href="https://www.hkb-gk.ch/de/studiengaenge/ba-fine-arts-114.html">BA Fine Arts HKB</a> Hosted by <a class="linkund spacename" href="//www.kunsthauslangenthal.ch/" target="_blank">Kunsthaus Langenthal</a> {% if object.entrance %}<a href="#impressum"  class="linkund spacename" onclick="toggleOverlay('impressum'); return false">Impressum</a> <a href="#program"  class="linkund" onclick="toggleOverlay('program'); return false">Programm</a>{% else %}<a href="#impressum"  class="linkund" onclick="toggleOverlay('impressum'); return false">Impressum</a>{% endif %}</p>
             </div>
