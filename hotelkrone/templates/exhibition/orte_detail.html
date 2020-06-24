@@ -450,6 +450,7 @@
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
                               toggleOverlay('media{{ poi.pk }}');
+                              infospot{{ poi.pk }}.removeHoverElement();
                           } );
                   {% endif %}
 
