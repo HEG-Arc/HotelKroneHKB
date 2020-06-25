@@ -329,8 +329,10 @@
                   var myDivContainer{{ poi.id }} = document.createElement('div');
                   myDivContainer{{ poi.id }}.id = 'myDivContainer{{ poi.id }}';
                   myDivContainer{{ poi.id }}.style = "position : absolute; display : block;"
-                    myDivContainer{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
-                    myDivContainer{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                  myDivContainer{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
+                  myDivContainer{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                  myDivContainer{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
+                  myDivContainer{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
 
 
                    block.appendChild(myDivContainer{{ poi.id }});
@@ -347,8 +349,7 @@
                    // img{{ poi.id }}.style.position = "absolute";
                     img{{ poi.id }}.style.top = "0%" ;
                     img{{ poi.id }}.style.left = "0%";
-                    img{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
-                    img{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
+
                     img{{ poi.id }}.classList.add( "img-fluid");
                     {% if poi.css_class %}
                         img{{ poi.id }}.classList.add("{{ poi.css_class }}");
