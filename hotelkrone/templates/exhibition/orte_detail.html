@@ -212,7 +212,7 @@
                 x.style.display = "block";
                 document.body.classList.add("noscroll");
 
-                var z = document.getElementById('divScroll')
+                var z = document.getElementById('divScroll'+mediaId)
 
                  if ( z.className.includes("endless_map_overlay")){
                      console.log(z);
@@ -281,7 +281,7 @@
                   <span class="overlay-title">{{poi.media.name}}</span>
                   <div class="overlay-content">
 
-                    <div id="divScroll" class="overlay-element w-75 {% if poi.this_specific_class_endless %} endless_map_overlay {% endif %}" >
+                    <div id="divScrollmedia{{ poi.pk }}" class="overlay-element w-75 {% if poi.this_specific_class_endless %} endless_map_overlay {% endif %}" >
 
 
                         {% if poi.media.image %}
