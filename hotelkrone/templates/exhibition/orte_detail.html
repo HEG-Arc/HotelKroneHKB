@@ -366,6 +366,29 @@
                         toggleOverlay('media{{ poi.pk }}');
                      };
                  {% endif %}
+
+                 var newContent{{ poi.id }} = document.createTextNode("{{poi.name}}");
+
+                var myDiv{{ poi.id }} = document.createElement('div');
+                myDiv{{ poi.id }}.id = 'div{{ poi.id }}';
+                myDiv{{ poi.id }}.className = "panolens-infospot"
+                myDiv{{ poi.id }}.style = "display: none; color: rgb(255, 255, 255); top: 0px; max-width: 50%; max-height: 50%; text-shadow: rgb(0, 0, 0) 0px 0px 3px; font-family: &quot;Trebuchet MS&quot;, Helvetica, sans-serif; position: absolute; "
+                myDiv{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
+                myDiv{{ poi.id }}.style.left = "{{poi.position_x}}%";
+
+
+                block.appendChild(myDiv{{ poi.id }});
+                myDiv{{ poi.id }}.appendChild(newContent{{ poi.id }});
+
+
+
+              img{{ poi.id }}.onmouseenter = function () {
+                    toggleOverlay('div{{ poi.pk }}');
+
+              }
+              img{{ poi.id }}.onmouseout = function () {
+                    toggleOverlay('div{{ poi.pk }}');
+              }
              {% endfor %}
 
           </script>
