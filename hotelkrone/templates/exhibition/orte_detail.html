@@ -408,6 +408,16 @@
       {% elif object.animation == 'INFI' %}
           <script>
             {% for poi in object.poi_set.all %}
+
+
+                var customPopup = "<div class ='panolens-infospot'> {{ poi.name }} </div>";
+
+                // specify popup options
+                var customOptions =
+                    {
+                     'className' : 'panolens-infospot'
+                    }
+
                 var greenIcon{{ poi.id }} = L.icon({
                     iconUrl: '{{poi.poi_image.url}}',
 
@@ -437,7 +447,7 @@
                     {% endif %}
                     block.appendChild(sound{{ poi.id }});
 
-                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                        if(sound{{ poi.id }}.paused){
                               sound{{ poi.id }}.play();
                             } else {
@@ -445,19 +455,27 @@
                             }
                         });
                 {% elif poi.url_link %}
-                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         window.location.href = "{{ poi.url_link }}";
                     });
 
 
                 {%else %}
 
-                    L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         console.log(e.latlng);
                         toggleOverlay('media{{ poi.pk }}');
                     });
                 {% endif %}
 
+                maker{{ poi.id }}.bindPopup(customPopup,customOptions);
+                maker{{ poi.id }}.on('mouseover', function(event){
+                  maker{{ poi.id }}.openPopup();
+                });
+
+                maker{{ poi.id }}.on('mouseout', function(event){
+                  maker{{ poi.id }}.closePopup();
+                });
             {% endfor %}
            map.on('click', function(e){
                   var coord = e.latlng;
