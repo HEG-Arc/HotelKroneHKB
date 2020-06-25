@@ -15,6 +15,7 @@
 .endless_map_overlay {
   overflow: auto;
   height: 66vh;
+    padding-top: 0px;
 }
 .leaflet-popup-tip {
     background: rgba(0, 0, 0, 0) !important;

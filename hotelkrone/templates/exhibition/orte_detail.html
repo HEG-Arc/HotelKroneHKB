@@ -109,7 +109,7 @@
                             touchZoom:false,
                             doubleClickZoom: false,
                             scrollWheelZoom: false,
-                              zoomSnap: 0.25
+                            zoomSnap: 0.25
 
                           });
 
@@ -496,6 +496,26 @@
                   console.log("X : " + (lng/clientWidth) * 100 + "  Y :" + (lat/clientHeight) *100);
                 });
 
+
+            function map_onResize(e){
+
+               var newClientHeight = document.getElementById('map').clientHeight;
+               var newClientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * newClientHeight ;
+               var newBounds = [[0,0], [newClientHeight,newClientWidth]];
+
+
+                setTimeout(function(){
+                    window.location.reload(false); //vraiment barbe but it works
+
+                    //map.invalidateSize();
+                    //var myMap  = document.getElementById('map')
+                    //console.log("nouveau "+newBounds);
+                    //myMap.load();
+                    //map.reload();
+                },800);
+               //map.fitBounds(newBounds, true);
+            }
+            map.on({ resize: map_onResize });
           </script>
 
       {% elif object.animation == 'EQUI' %}
