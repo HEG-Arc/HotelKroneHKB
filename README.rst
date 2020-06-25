@@ -6,84 +6,46 @@ Virtual exhibition for HKB Master's Theses
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-     :target: https://github.com/ambv/black
-     :alt: Black code style
-
 
 :License: GPLv3
 
 
-Settings
---------
+About
+-----
 
-Moved to settings_.
+Welcome! Hotel Krone is a metaphorical space accommodating the collective efforts and phantasies of this years fine arts graduates and has been developed in long conversations and extended experiments. The unique occurrence not only comprehends the thesis of each one of the fourteen graduates and what it is about, but unexpectedly shows how their artwork can be thought about or looked at from new perspectives. Some of the work easily adapts to digital space. Some of it stubbornly resists a transformation, keeping its analog appearance even online. Being open to future developments, variants of the common have become the center of the manifold appearances in Hotel Krone.
 
-.. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
+The exhibition is open from June 28th 2020 until June 2021 and can be accessed online: https://hotelkrone.be
 
-Basic Commands
---------------
+Creating Your Own Exhibition
+----------------------------
 
-Setting Up Your Users
-^^^^^^^^^^^^^^^^^^^^^
+Warning, all contents (images and sounds) are copyrighted! This project only contains the software running the exhibition. Artworks are not included.
 
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+Setting Up Your Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* To create an **superuser account**, use this command::
+* Checkout the repository
 
-    $ python manage.py createsuperuser
+* Start the containers::
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+    $ docker-compose -f local.py up -d
+    
+* Create a **superuser account**::
 
-Type checks
-^^^^^^^^^^^
+    $ docker-compose -f local.py exec django /entrypoint python manage.py createsuperuser
 
-Running type checks with mypy:
+* Visit the admin backend:
 
-::
+    http://localhost:8000
 
-  $ mypy hotelkrone
+Deploy On Production
+^^^^^^^^^^^^^^^^^^^^
 
-Test coverage
-^^^^^^^^^^^^^
+* To use HotelKroneHKB in production, you first need to replace the domains in the file compose/production/traefix/traefix.yml
 
-To run the tests, check your test coverage, and generate an HTML coverage report::
+* You can start the containers::
 
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
+    $ docker-compose -f production.py up -d
 
-Running tests with py.test
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-  $ pytest
-
-Live reloading and Sass CSS compilation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Moved to `Live reloading and SASS compilation`_.
-
-.. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
-
-
-
-
-
-Deployment
-----------
-
-The following details how to deploy this application.
-
-
-
-Docker
-^^^^^^
-
-See detailed `cookiecutter-django Docker documentation`_.
-
-.. _`cookiecutter-django Docker documentation`: http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html
-
-
-
+* This will start Django/Postgresql/Redis for the backend, Nginx to serve assets, Restreamer to capture RTMP streams, Traefix for loadbalancing and SSL and finally MangoDB/Matomo for the stats.
