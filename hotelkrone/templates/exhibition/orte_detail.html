@@ -416,7 +416,7 @@
                 // specify popup options
                 var customOptions =
                     {
-                     'className' : 'panolens-infospot'
+                     'className' : 'panolens-infospot popup'
                     }
 
                 var greenIcon{{ poi.id }} = L.icon({
@@ -470,6 +470,7 @@
                 {% endif %}
 
                 maker{{ poi.id }}.bindPopup(customPopup,customOptions);
+
                 maker{{ poi.id }}.on('mouseover', function(event){
                   maker{{ poi.id }}.openPopup();
                 });

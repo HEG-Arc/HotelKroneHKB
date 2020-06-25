@@ -16,3 +16,26 @@
   overflow: auto;
   height: 66vh;
 }
+.leaflet-popup-tip {
+    background: rgba(0, 0, 0, 0) !important;
+    box-shadow: none !important;
+}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    border: none !important;
+}
+.leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0) !important;
+    border: none !important;
+    font-size: 20px;
+    box-shadow: none !important;
+}
+
+.popup {
+  top: 0;
+}
+.leaflet-popup-close-button {
+   display: none;
+}
