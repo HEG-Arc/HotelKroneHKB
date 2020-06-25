@@ -212,11 +212,11 @@
                 x.style.display = "block";
                 document.body.classList.add("noscroll");
 
-                let z = document.getElementById('divScroll')
+                var z = document.getElementById('divScroll')
 
                  if ( z.className.includes("endless_map_overlay")){
-                     z.scrollTo (0, z.scrollHeight /4);
-                     z.scrollLeft = z.scrollWidth * 0.75;
+                     console.log(z);
+                     z.scrollTo (z.scrollWidth * 0.75, z.scrollHeight /4);
                  }
 
 
