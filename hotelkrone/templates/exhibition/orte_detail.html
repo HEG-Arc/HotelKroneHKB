@@ -381,11 +381,13 @@
 
 
               img{{ poi.id }}.onmouseenter = function () {
-                    toggleOverlay('div{{ poi.pk }}');
+                  let x = document.getElementById('div{{ poi.pk }}');
+                  x.style.display = "block";
 
               }
               img{{ poi.id }}.onmouseout = function () {
-                    toggleOverlay('div{{ poi.pk }}');
+                    let x = document.getElementById('div{{ poi.pk }}');
+                    x.style.display = "none";
               }
              {% endfor %}
 
