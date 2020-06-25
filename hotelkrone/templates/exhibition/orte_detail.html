@@ -325,15 +325,28 @@
 
 
              {% for poi in object.poi_set.all %}
+                 <!-- div qui contient l img du poi et le text hover -->
+                  var myDivContainer{{ poi.id }} = document.createElement('div');
+                  myDivContainer{{ poi.id }}.id = 'myDivContainer{{ poi.id }}';
+                  myDivContainer{{ poi.id }}.style = "position : absolute; display : block;"
+                    myDivContainer{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
+                    myDivContainer{{ poi.id }}.style.left = "{{poi.position_x}}%";
+
+
+                   block.appendChild(myDivContainer{{ poi.id }});
+
+
+
+
                     var img{{ poi.id }} = document.createElement("img");
                     img{{ poi.id }}.src = "{{poi.poi_image.url}}";
 
 
-                    block.appendChild(img{{ poi.id }});
+                    myDivContainer{{ poi.id }}.appendChild(img{{ poi.id }});
 
-                    img{{ poi.id }}.style.position = "absolute";
-                    img{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
-                    img{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                   // img{{ poi.id }}.style.position = "absolute";
+                    img{{ poi.id }}.style.top = "0%" ;
+                    img{{ poi.id }}.style.left = "0%";
                     img{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
                     img{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
                     img{{ poi.id }}.classList.add( "img-fluid");
@@ -370,12 +383,11 @@
                 var myDiv{{ poi.id }} = document.createElement('div');
                 myDiv{{ poi.id }}.id = 'div{{ poi.id }}';
                 myDiv{{ poi.id }}.className = "panolens-infospot"
-                myDiv{{ poi.id }}.style = "display: none; color: rgb(255, 255, 255); top: 0px; max-width: 50%; max-height: 50%; text-shadow: rgb(0, 0, 0) 0px 0px 3px; font-family: &quot;Trebuchet MS&quot;, Helvetica, sans-serif; position: absolute; "
-                myDiv{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
-                myDiv{{ poi.id }}.style.left = "{{poi.position_x}}%";
+                myDiv{{ poi.id }}.style = "display: none; color: rgb(255, 255, 255); top: -1%; left:50%; transform: translate(-50%, -50%); max-width: 50%; max-height: 50%; text-shadow: rgb(0, 0, 0) 0px 0px 3px; font-family: &quot;Trebuchet MS&quot;, Helvetica, sans-serif; position: absolute; "
 
 
-                block.appendChild(myDiv{{ poi.id }});
+
+                myDivContainer{{ poi.id }}.appendChild(myDiv{{ poi.id }});
                 myDiv{{ poi.id }}.appendChild(newContent{{ poi.id }});
 
 
