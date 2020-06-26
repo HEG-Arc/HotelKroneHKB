@@ -68,7 +68,7 @@
                         {% if media.image %}
                             <img src="{{ media.image.url }}" class="d-block w-100">
                         {% elif media.sound %}
-                            <div style="width:100%;padding-bottom:66.6%;position:relative;">
+                            <div class="student-player">
                                <audio id="background-audio" controls style="outline: none;">
                                   <source src="{{ media.sound.url }}" type="audio/mpeg">
                                </audio>
