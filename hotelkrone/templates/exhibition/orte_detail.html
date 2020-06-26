@@ -240,22 +240,25 @@
 
           function toggleOverlay(mediaId) {
               let x = document.getElementById(mediaId);
-              if (x.style.display === "none") {
-                x.style.display = "block";
-                document.body.classList.add("noscroll");
+              if(x != null ) {
+                  if (x.style.display === "none") {
+                      x.style.display = "block";
+                      {% if object.entrance %}
+                          document.body.classList.add("noscroll");
+                      {% endif %}
+                      var z = document.getElementById('divScroll' + mediaId);
+                        if(z  != null) {
+                            if (z.className.includes("endless_map_overlay")) {
+                                console.log(z);
+                                z.scrollTo(z.scrollWidth * 0.75, z.scrollHeight / 4);
+                            }
+                        }
 
-                var z = document.getElementById('divScroll'+mediaId)
-
-                 if ( z.className.includes("endless_map_overlay")){
-                     console.log(z);
-                     z.scrollTo (z.scrollWidth * 0.75, z.scrollHeight /4);
-                 }
-
-
-              } else {
-                x.style.display = "none";
-                document.body.classList.remove("noscroll");
-                stopVideos();
+                  } else {
+                      x.style.display = "none";
+                      document.body.classList.remove("noscroll");
+                      stopVideos();
+                  }
               }
           }
           function toggleFullScreenVideo(id) {
@@ -581,6 +584,7 @@
                              {% endif %}
 
                               infospot{{ poi.pk }}.removeHoverElement();
+
                           } );
                   {% endif %}
 
