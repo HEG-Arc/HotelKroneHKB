@@ -253,16 +253,16 @@
           function toggleFullScreenVideo(id) {
               let x = document.getElementById("close-video"+id);
               let y = document.getElementById("keycase-video"+id);
-              let z = document.getElementById("caption-video"+id);
+              //let z = document.getElementById("caption-video"+id);
               if (x.style.display === "none") {
                 x.style.display = "block";
                 y.style.display = "block";
-                z.style.display = "block";
+                //z.style.display = "block";
 
               } else {
                 x.style.display = "none";
                 y.style.display = "none";
-                z.style.display = "none";
+                //z.style.display = "none";
                 stopVideos();
               }
           }
