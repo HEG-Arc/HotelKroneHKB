@@ -1,0 +1,138 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+    # http
+    address: ":80"
+
+  web-secure:
+    # https
+    address: ":443"
+
+certificatesResolvers:
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: "cedric.gaspoz@he-arc.ch"
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
+api:
+  dashboard: true
+
+http:
+  routers:
+    web-router:
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+        - csrf
+      service: django
+
+    web-secure-router:
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      middlewares:
+        - csrf
+      service: django
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    cdn-router:
+      rule: "Host(`cdn.hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: nginx
+
+    cdn-secure-router:
+      rule: "Host(`cdn.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: nginx
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    matomo-secure-router:
+      rule: "Host(`stats.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: matomo
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    rtmp-router:
+      rule: "Host(`rtmp.hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: restreamer
+
+    rtmp-secure-router:
+      rule: "Host(`rtmp.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: restreamer
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+  middlewares:
+    redirect:
+      # https://docs.traefik.io/master/middlewares/redirectscheme/
+      redirectScheme:
+        scheme: https
+        permanent: true
+    csrf:
+      # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
+      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+      headers:
+        hostsProxyHeaders: ["X-CSRFToken"]
+
+
+
+
+
+
+
+
+  services:
+    django:
+      loadBalancer:
+        servers:
+          - url: http://django:5000
+    nginx:
+      loadBalancer:
+        servers:
+          - url: http://nginx:9000
+    matomo:
+      loadBalancer:
+        servers:
+          - url: http://matomo:80
+    restreamer:
+      loadBalancer:
+        servers:
+          - url: http://restreamer:8080
+
+providers:
+  # https://docs.traefik.io/master/providers/file/
+  file:
+    filename: /etc/traefik/traefik.yml
+    watch: true
+  docker: {}
