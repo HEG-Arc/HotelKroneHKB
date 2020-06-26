@@ -569,7 +569,9 @@
                                 toggleOverlay('media{{ poi.pk }}');
                              {% endif %}
 
-                              infospot{{ poi.pk }}.removeHoverElement();
+                              infospot{{ poi.pk }}.unlockHoverElement();
+
+
 
                           } );
                   {% endif %}
