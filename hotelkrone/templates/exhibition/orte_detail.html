@@ -243,7 +243,7 @@
               if(x != null ) {
                   if (x.style.display === "none") {
                       x.style.display = "block";
-                      {% if object.entrance %}
+                      {% if not object.entrance %}
                           document.body.classList.add("noscroll");
                       {% endif %}
                       var z = document.getElementById('divScroll' + mediaId);
