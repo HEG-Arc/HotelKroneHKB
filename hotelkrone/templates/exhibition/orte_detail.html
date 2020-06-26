@@ -190,23 +190,12 @@
             <div id="groundtext">
               {{ object.description|safe }}
 
-            <!-- full screen video -->
-            {% for poi in object.poi_set.all %}
-                {% if poi.this_fullscreen_video %}
-                    <span id="caption-video{{ poi.id }}" class="caption-video" style="display: none">{{ poi.name }}</span>
-                {% endif %}
-            {% endfor %}
-            <!-- end full screen video -->
+
 
             </div>
             {% else %}
             <div id="groundtext-ort">
               {{ object.description|safe }}
-                {% for poi in object.poi_set.all %}
-                    {% if poi.this_fullscreen_video %}
-                        <span id="caption-video{{ poi.id }}" class="caption-video" style="display: none">{{ poi.name }}</span>
-                    {% endif %}
-                {% endfor %}
             </div>
             {% endif %}
 
