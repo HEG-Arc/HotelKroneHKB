@@ -17,6 +17,8 @@
       <meta name="date" content="June 2020">
 
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+      <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}"/>
+      <link rel="stylesheet" href="{% static 'css/solid.min.css' %}"/>
 	  <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css"/>
       <link rel="stylesheet" href="{% static 'css/project.css' %}"/>
 
@@ -65,14 +67,174 @@
   
                     {% for media in artworks %}
                       <div class="carousel-item{% if forloop.first %} active{% endif %}">
-                        {% if media.image %}
+
+                        {% if media.sound %}
+                                      <div class="card">
+
+                                        <!-- Card image -->
+                                        <div class="view">
+                                          <img class="card-img-top" src="{{ media.image.url }}"
+                                            alt="Card image cap">
+                                          <div class="mask gradient-card"></div>
+                                        </div>
+
+                                        <!-- Card content -->
+                                        <div class="card-body text-center">
+
+                                          <h5 class="h5 font-weight-bold">{{ object.first_name }} {{ object.last_name }}</h5>
+                                          <p class="mb-0">{{ media.name }}</p>
+
+                                          <audio id="music" preload="true">
+                                              <source src="{{ media.sound.url }}" type="audio/mpeg">
+                                          </audio>
+                                          <div id="audioplayer">
+                                              <i id="pButton" class="fas fa-play"></i>
+                                              <div id="timeline">
+                                                  <div id="playhead"></div>
+                                              </div>
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+                                        <style>
+                                            #pButton {
+                                              float: left; }
+
+                                            #timeline {
+                                              width: 92%;
+                                              height: 3px;
+                                              margin-top: 20px;
+                                              margin-left: 10px;
+                                              float: left;
+                                              -webkit-border-radius: 15px;
+                                              border-radius: 15px;
+                                              background: rgba(0, 0, 0, 0.3); }
+
+                                            #pButton {
+                                              margin-top: 12px;
+                                              cursor: pointer; }
+
+                                            #playhead {
+                                              width: 8px;
+                                              height: 8px;
+                                              -webkit-border-radius: 50%;
+                                              border-radius: 50%;
+                                              margin-top: -3px;
+                                              background: black;
+                                              cursor: pointer; }
+
+                                        </style>
+                                        <script>
+                                          var music = document.getElementById('music'); // id for audio element
+                                          var duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
+                                          var pButton = document.getElementById('pButton'); // play button
+                                          var playhead = document.getElementById('playhead'); // playhead
+                                          var timeline = document.getElementById('timeline'); // timeline
+
+                                          // timeline width adjusted for playhead
+                                          var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+
+                                          // play button event listenter
+                                          pButton.addEventListener("click", play);
+
+                                          // timeupdate event listener
+                                          music.addEventListener("timeupdate", timeUpdate, false);
+
+                                          // makes timeline clickable
+                                          timeline.addEventListener("click", function (event) {
+                                              moveplayhead(event);
+                                              music.currentTime = duration * clickPercent(event);
+                                          }, false);
+
+                                          // returns click as decimal (.77) of the total timelineWidth
+                                          function clickPercent(event) {
+                                              return (event.clientX - getPosition(timeline)) / timelineWidth;
+                                          }
+
+                                          // makes playhead draggable
+                                          playhead.addEventListener('mousedown', mouseDown, false);
+                                          window.addEventListener('mouseup', mouseUp, false);
+
+                                          // Boolean value so that audio position is updated only when the playhead is released
+                                          var onplayhead = false;
+
+                                          // mouseDown EventListener
+                                          function mouseDown() {
+                                              onplayhead = true;
+                                              window.addEventListener('mousemove', moveplayhead, true);
+                                              music.removeEventListener('timeupdate', timeUpdate, false);
+                                          }
+
+                                          // mouseUp EventListener
+                                          // getting input from all mouse clicks
+                                          function mouseUp(event) {
+                                              if (onplayhead == true) {
+                                                  moveplayhead(event);
+                                                  window.removeEventListener('mousemove', moveplayhead, true);
+                                                  // change current time
+                                                  music.currentTime = duration * clickPercent(event);
+                                                  music.addEventListener('timeupdate', timeUpdate, false);
+                                              }
+                                              onplayhead = false;
+                                          }
+                                          // mousemove EventListener
+                                          // Moves playhead as user drags
+                                          function moveplayhead(event) {
+                                              var newMargLeft = event.clientX - getPosition(timeline);
+
+                                              if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+                                                  playhead.style.marginLeft = newMargLeft + "px";
+                                              }
+                                              if (newMargLeft < 0) {
+                                                  playhead.style.marginLeft = "0px";
+                                              }
+                                              if (newMargLeft > timelineWidth) {
+                                                  playhead.style.marginLeft = timelineWidth + "px";
+                                              }
+                                          }
+
+                                          // timeUpdate
+                                          // Synchronizes playhead position with current point in audio
+                                          function timeUpdate() {
+                                              var playPercent = timelineWidth * (music.currentTime / duration);
+                                              playhead.style.marginLeft = playPercent + "px";
+                                              if (music.currentTime == duration) {
+                                                  pButton.className = "";
+                                                  pButton.className = "fas fa-play";
+                                              }
+                                          }
+
+                                          //Play and Pause
+                                          function play() {
+                                              // start music
+                                              if (music.paused) {
+                                                  music.play();
+                                                  // remove play, add pause
+                                                  pButton.className = "";
+                                                  pButton.className = "fas fa-pause";
+                                              } else { // pause music
+                                                  music.pause();
+                                                  // remove pause, add play
+                                                  pButton.className = "";
+                                                  pButton.className = "fas fa-play";
+                                              }
+                                          }
+
+                                          // Gets audio file duration
+                                          music.addEventListener("canplaythrough", function () {
+                                              duration = music.duration;
+                                          }, false);
+
+                                          // getPosition
+                                          // Returns elements left position relative to top-left of viewport
+                                          function getPosition(el) {
+                                              return el.getBoundingClientRect().left;
+                                          }
+                                        </script>
+                                      <!-- Card -->
+                        {% elif media.image %}
                             <img src="{{ media.image.url }}" class="d-block w-100">
-                        {% elif media.sound %}
-                            <div style="width:100%;padding-bottom:66.6%;position:relative;">
-                               <audio id="background-audio" controls style="outline: none;">
-                                  <source src="{{ media.sound.url }}" type="audio/mpeg">
-                               </audio>
-                            </div>
                         {% else %}
 
                             {{ media.html_embed|safe }}
