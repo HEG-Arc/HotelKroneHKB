@@ -56,10 +56,17 @@
           </div>
           <div id="top-hotel">		
             <div id="title-hotel">
-              <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+              <a  href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
                 {%  if not object.entrance %}
                 <span class="subtitle">: {{ object.name }}</span>
               {% endif %}
+            <!-- full screen video -->
+            {% for poi in object.poi_set.all %}
+                {% if poi.this_fullscreen_video %}
+                    <span id="close-video{{ poi.id }}" class="close-video" style="display: none"><a onclick="toggleFullScreenVideo({{poi.id}})" class="linknames">X</a></span>
+                {% endif %}
+            {% endfor %}
+            <!-- end full screen video -->
             </div>
           </div>
           <div id="corner-top-right">
@@ -83,6 +90,17 @@
                     <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
                   {% endfor %}
                 </div>
+
+                <!-- full screen video -->
+                {% for poi in object.poi_set.all %}
+                    {% if poi.this_fullscreen_video %}
+                        <div id="keycase-video{{ poi.id }}" classe="keycase-video" style="display: none">
+                            {{ poi.media.html_embed|safe }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <!-- end fullscreen -->
+
                 <div id="room">
                 {% if object.animation == 'NOJS' %}
                      <div id="container" style="position:relative; height:100%">
@@ -171,10 +189,24 @@
             </div>
             <div id="groundtext">
               {{ object.description|safe }}
+
+            <!-- full screen video -->
+            {% for poi in object.poi_set.all %}
+                {% if poi.this_fullscreen_video %}
+                    <span id="caption-video{{ poi.id }}" class="caption-video" style="display: none">{{ poi.name }}</span>
+                {% endif %}
+            {% endfor %}
+            <!-- end full screen video -->
+
             </div>
             {% else %}
             <div id="groundtext-ort">
               {{ object.description|safe }}
+                {% for poi in object.poi_set.all %}
+                    {% if poi.this_fullscreen_video %}
+                        <span id="caption-video{{ poi.id }}" class="caption-video" style="display: none">{{ poi.name }}</span>
+                    {% endif %}
+                {% endfor %}
             </div>
             {% endif %}
 
@@ -226,6 +258,22 @@
                 stopVideos();
               }
           }
+          function toggleFullScreenVideo(id) {
+              let x = document.getElementById("close-video"+id);
+              let y = document.getElementById("keycase-video"+id);
+              let z = document.getElementById("caption-video"+id);
+              if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "block";
+                z.style.display = "block";
+
+              } else {
+                x.style.display = "none";
+                y.style.display = "none";
+                z.style.display = "none";
+                stopVideos();
+              }
+          }
 
           if (!document.cookie.split('; ').find(row => row.startsWith('hideProgram'))) {
             toggleOverlay('program');
@@ -253,25 +301,6 @@
 
       {% for poi in object.poi_set.all %}
           {% if poi.this_fullscreen_video %}
-                <!-- overlay fullscreen -->
-              <div class=overlayframe-fs id="media{{ poi.pk }}" style="display:none;">
-                <div class="overlay-fs">
-                  <div class="overlay-topline-fs">
-                    <a href="..." class="linkoverlayclose overlay-close-fs overlay-back-txt" onclick="toggleOverlay('media{{ poi.pk }}'); return false">X </a>
-                    <a href="" class="overlay-student-fs linkoverlay overlay-back-txt">{{poi.media.student.first_name}} {{poi.media.student.last_name}}</a><span class="overlay-title-fs overlay-back-txt">{{poi.media.name}}</span>
-                  </div>
-                  <div class="overlay-content-fs w-100">
-
-                      {% if poi.media.image %}
-                        <img src="{{ poi.media.image.url }}" class="overlay-image" />
-                        {% else %}
-                            {{ poi.media.html_embed|safe }}
-                        {% endif %}
-
-                  </div>
-                </div>
-              </div>
-              <!-- Fin fullscreen -->
 
           {% else %}
               <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
@@ -384,7 +413,11 @@
 
                  {% else %}
                      img{{ poi.id }}.onclick = function(){
-                        toggleOverlay('media{{ poi.pk }}');
+                         {% if poi.this_fullscreen_video %}
+                             toggleFullScreenVideo({{poi.id}});
+                         {% else %}
+                            toggleOverlay('media{{ poi.pk }}');
+                         {% endif %}
                      };
                  {% endif %}
 
@@ -474,7 +507,11 @@
 
                     var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
                         console.log(e.latlng);
-                        toggleOverlay('media{{ poi.pk }}');
+                        {% if poi.this_fullscreen_video %}
+                             toggleFullScreenVideo({{poi.id}});
+                         {% else %}
+                            toggleOverlay('media{{ poi.pk }}');
+                         {% endif %}
                     });
                 {% endif %}
 
@@ -537,7 +574,12 @@
                   {% if not poi.hide_overlay and not poi.this_is_a_sound and not poi.url_link%}
                           infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
                           infospot{{ poi.pk }}.addEventListener( 'click', function(){
-                              toggleOverlay('media{{ poi.pk }}');
+                             {% if poi.this_fullscreen_video %}
+                                 toggleFullScreenVideo({{poi.id}});
+                             {% else %}
+                                toggleOverlay('media{{ poi.pk }}');
+                             {% endif %}
+
                               infospot{{ poi.pk }}.removeHoverElement();
                           } );
                   {% endif %}
