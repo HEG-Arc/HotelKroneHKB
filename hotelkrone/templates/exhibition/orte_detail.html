@@ -243,9 +243,9 @@
               if(x != null ) {
                   if (x.style.display === "none") {
                       x.style.display = "block";
-                      {% if not object.entrance %}
+                      if(mediaId != "program") {
                           document.body.classList.add("noscroll");
-                      {% endif %}
+                      }
                       var z = document.getElementById('divScroll' + mediaId);
                         if(z  != null) {
                             if (z.className.includes("endless_map_overlay")) {
