@@ -25,7 +25,7 @@ api:
 http:
   routers:
     web-router:
-      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      rule: "Host(`dev.hotelkrone.be`)"
       
       entryPoints:
         - web
@@ -35,7 +35,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      rule: "Host(`dev.hotelkrone.be`)"
       
       entryPoints:
         - web-secure
@@ -71,6 +71,25 @@ http:
       entryPoints:
         - web-secure
       service: matomo
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
+    home-router:
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+      service: nginx
+
+    home-secure-router:
+      rule: "Host(`hotelkrone.be`,`www.hotelkrone.be`)"
+      
+      entryPoints:
+        - web-secure
+      service: nginx
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
