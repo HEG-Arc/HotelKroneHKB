@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
-  <head>
+<head>
     <meta http-equiv="Content-Type"   content="text/html; charset=UTF-8">
     <meta property="og:url"           content="https://hotelkrone.be" />
     <meta property="og:type"          content="website" />
@@ -16,27 +16,27 @@
     <meta name="description" content="Homepage of the BA Fine Arts Diploma 2020, HKB, Bern">
     <meta name="date" content="June 2020">
 
-  {% if object.entrance %}
-    <title>Hotel Krone: Homepage</title>
-  {% else %}
-    <title>Hotel Krone: {{ object.name }}</title>
-  {% endif %}
-  {% if object.animation == 'INFI' %}
-    <link rel="stylesheet" href="{% static 'css/leaflet.css' %}"/>
-    <script src="{% static 'js/leaflet.js' %}"></script>
-    <style>
-        #map {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          right: 0;
-          top: 0;
-        }
-    </style>
-  {% elif object.animation == 'EQUI' %}
-    <script src="{% static 'js/three.min.109.js' %}"></script>
-    <script src="{% static 'js/panolens.min.js' %}"></script>
-  {% endif %}
+    {% if object.entrance %}
+        <title>Hotel Krone: Homepage</title>
+    {% else %}
+        <title>Hotel Krone: {{ object.name }}</title>
+    {% endif %}
+    {% if object.animation == 'INFI' %}
+        <link rel="stylesheet" href="{% static 'css/leaflet.css' %}"/>
+        <script src="{% static 'js/leaflet.js' %}"></script>
+        <style>
+            #map {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        </style>
+    {% elif object.animation == 'EQUI' %}
+        <script src="{% static 'js/three.min.109.js' %}"></script>
+        <script src="{% static 'js/panolens.min.js' %}"></script>
+    {% endif %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="https://cdn.hotelkrone.be/css/master-hk.css"/>
     <link rel="stylesheet" href="{% static 'css/project.css' %}"/>
@@ -44,51 +44,49 @@
     <link rel="icon" type="image/jpg" href="{% static 'media/webicon.jpg' %}">
 
     {% include "exhibition/snippet_tracker.html" %}
+</head>
 
-  </head>
-  
-  
-  <body>
-      <div id="main">
-        <div id="topline">
-          <div id="corner-top-left">
+<body>
+<div id="main">
+    <div id="topline">
+        <div id="corner-top-left">
             <img src="{% static 'media/corner-tl.png' %}" width="100%" height="100%" alt="">
-          </div>
-          <div id="top-hotel">		
+        </div>
+        <div id="top-hotel">
             <div id="title-hotel">
-              <a  href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+                <a  href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
                 {%  if not object.entrance %}
-                <span class="subtitle">: {{ object.name }}</span>
-              {% endif %}
-            <!-- full screen video -->
-            {% for poi in object.poi_set.all %}
-                {% if poi.this_fullscreen_video %}
-                    <span id="close-video{{ poi.id }}" class="close-video" style="display: none"><a onclick="toggleFullScreenVideo({{poi.id}})" class="linknames">X</a></span>
+                    <span class="subtitle">: {{ object.name }}</span>
                 {% endif %}
-            {% endfor %}
-            <!-- end full screen video -->
+                <!-- full screen video -->
+                {% for poi in object.poi_set.all %}
+                    {% if poi.this_fullscreen_video %}
+                        <span id="close-video{{ poi.id }}" class="close-video" style="display: none"><a onclick="toggleFullScreenVideo({{poi.id}})" class="linknames">X</a></span>
+                    {% endif %}
+                {% endfor %}
+                <!-- end full screen video -->
             </div>
-          </div>
-          <div id="corner-top-right">
+        </div>
+        <div id="corner-top-right">
             <img src="{% static 'media/corner-tr.png' %}" width="100%" height="100%" alt="">
-          </div>
+        </div>
+    </div>
+
+    <div id="middle">
+        <div id="mar-left">
+            {%  if object.entrance %}
+                <div id="txtleft"><span class="whitetxt">x</span></div>
+            {% else %}
+                <div id="txtleft"><a href="{{ object.previous.get_absolute_url }}" class="linknames">{{ object.previous.name }}</a></div>
+            {% endif %}
         </div>
 
-        <div id="middle">
-			    <div id="mar-left">
-            {%  if object.entrance %}
-              <div id="txtleft"><span class="whitetxt">x</span></div>
-            {% else %}
-              <div id="txtleft"><a href="{{ object.previous.get_absolute_url }}" class="linknames">{{ object.previous.name }}</a></div>
-            {% endif %}
-          </div>
-
-          <div id="key" >
+        <div id="key" >
             <div id="keycontent">
-              <div id="keycase">
-                  {% for ort in orte_list %}
-                    <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
-                  {% endfor %}
+                <div id="keycase">
+                    {% for ort in orte_list %}
+                        <a href="{{ ort.get_absolute_url }}" class="linkrooms rooms">{{ ort.name }}</a>
+                    {% endfor %}
                 </div>
 
                 <!-- full screen video -->
@@ -102,543 +100,435 @@
                 <!-- end fullscreen -->
 
                 <div id="room">
-                {% if object.animation == 'NOJS' %}
-                     <div id="container" style="position:relative; height:100%">
-                         {% if object.background %}
-                             <img id="backgroundIMG" src="{{ object.background.url }}" width="100%" alt="">
-                         {% else %}
-                             {{ object.html_embed|safe }}
-                         {% endif %}
-                     </div>
-                {% elif object.animation == 'INFI' %}
-                    {% if object.background %}
+                    {% if object.animation == 'NOJS' %}
+                        <div id="container" style="position:relative; height:100%">
+                            {% if object.background %}
+                                <img id="backgroundIMG" src="{{ object.background.url }}" width="100%" alt="">
+                            {% else %}
+                                {{ object.html_embed|safe }}
+                            {% endif %}
+                        </div>
+                    {% elif object.animation == 'INFI' %}
+                        {% if object.background %}
 
-                        <div id="map"></div>
-                        <script type="text/javascript">
+                            <div id="map"></div>
+                            <script type="text/javascript">
 
-                            var clientHeight = document.getElementById('map').clientHeight;
-                            var clientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * clientHeight ;
-                          var bounds = [[0,0], [clientHeight,clientWidth]];
-                          var map = L.map('map', {
-                            crs: L.CRS.Simple,
-                            maxBounds: bounds,
-                            maxBoundsViscosity: 1.0,
-                            zoomControl: false,
-                            touchZoom:false,
-                            doubleClickZoom: false,
-                            scrollWheelZoom: false,
-                            zoomSnap: 0.25
+                                var clientHeight = document.getElementById('map').clientHeight;
+                                var clientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * clientHeight;
+                                var bounds = [[0,0], [clientHeight,clientWidth]];
+                                var map = L.map('map', {
+                                    crs: L.CRS.Simple,
+                                    maxBounds: bounds,
+                                    maxBoundsViscosity: 1.0,
+                                    zoomControl: false,
+                                    touchZoom:false,
+                                    doubleClickZoom: false,
+                                    scrollWheelZoom: false,
+                                    zoomSnap: 0.25
+                                });
 
-                          });
+                                var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
 
+                                map.fitBounds(bounds);
 
-                          var image = L.imageOverlay('{{ object.background.url }}', bounds).addTo(map);
-
-                          map.fitBounds(bounds);
-
-
-                          {% if   object.position_x and  object.position_y%}
-                              var lngView = ( {{object.position_x}} / 100 ) * clientWidth ;
-                              var latView = ( {{object.position_y}} /100 ) * clientHeight ;
-
-                             {% if  object.zoom != 1 %}
-                                map.setView([lngView, latView],{{object.zoom}});
-                             {% else %}
-                                 map.setView([lngView, latView]);
-                            {% endif  %}
-
-                          {% endif  %}
-
-
-                        </script>
-
-
+                                {% if object.position_x and  object.position_y %}
+                                    var lngView = ( {{object.position_x}} / 100 ) * clientWidth ;
+                                    var latView = ( {{object.position_y}} /100 ) * clientHeight ;
+                                    {% if  object.zoom != 1 %}
+                                        map.setView([lngView, latView],{{object.zoom}});
+                                    {% else %}
+                                        map.setView([lngView, latView]);
+                                    {% endif  %}
+                                {% endif  %}
+                            </script>
+                        {% endif %}
+                    {% elif object.animation == 'EQUI' %}
                     {% endif %}
-                {% elif object.animation == 'EQUI' %}
-                {% endif %}
                 </div>
-              </div>
             </div>
+        </div>
 
-            <div id="mar-right">
-              {%  if object.entrance %}
+        <div id="mar-right">
+            {%  if object.entrance %}
                 <div id="txtright"><span class="whitetxt">x</span></div>
-              {% else %}
-                <div id="txtright"><a href="{{ object.next.get_absolute_url }}" class="linknames">{{ object.next.name }}</a></div>
-              {% endif %}
-            </div>
-        </div>
-
-        <div id="bottom">
-          <div id="corner-down-left">
-            <img src="{% static 'media/corner-bl.png' %}" width="100%" height="100%" alt="">
-          </div>
-
-          <div id="corner-down-right">
-            <img src="{% static 'media/corner-br.png' %}" width="100%" height="100%" alt="">
-          </div>
-
-          <div id="ground">
-            {% if object.entrance %}
-            <div id="groundnames" class="namesnew">
-                <ul class="namelist">
-                {% for student in students %}
-                  <li><a class="linknames spacenamein" href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>&nbsp;</li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div id="groundtext">
-              {{ object.description|safe }}
-
-
-
-            </div>
             {% else %}
-            <div id="groundtext-ort">
-              {{ object.description|safe }}
-            </div>
+                <div id="txtright"><a href="{{ object.next.get_absolute_url }}" class="linknames">{{ object.next.name }}</a></div>
             {% endif %}
-
-            {% include "exhibition/snippet_footer.html" %}
-          </div>
         </div>
-      </div>
+    </div>
 
+    <div id="bottom">
+        <div id="corner-down-left">
+            <img src="{% static 'media/corner-bl.png' %}" width="100%" height="100%" alt="">
+        </div>
 
-    {% include "exhibition/snippet_impressum.html" %}
-    <!-- Fin Calque media & impressum -->
-    {% if contents.display_program and object.entrance %}
-        {% include "exhibition/snippet_program.html" %}
-    {% endif %}
-      <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <script src="{% static 'js/bootstrap.min.js' %}"></script>
-      <script>
+        <div id="corner-down-right">
+            <img src="{% static 'media/corner-br.png' %}" width="100%" height="100%" alt="">
+        </div>
 
-          var stopVideos = function () {
-            var videos = document.querySelectorAll('iframe, video');
-            Array.prototype.forEach.call(videos, function (video) {
-                if (video.tagName.toLowerCase() === 'video') {
-                    video.pause();
-                } else {
-                    var src = video.src;
-                    video.src = src;
-                }
-            });
-            };
+        <div id="ground">
+            {% if object.entrance %}
+                <div id="groundnames" class="namesnew">
+                    <ul class="namelist">
+                        {% for student in students %}
+                            <li><a class="linknames spacenamein" href="{{ student.get_absolute_url }}">{{ student.first_name }} {{ student.last_name }}</a>&nbsp;</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="groundtext">
+                    {{ object.description|safe }}
+                </div>
+            {% else %}
+                <div id="groundtext-ort">
+                    {{ object.description|safe }}
+                </div>
+            {% endif %}
+            {% include "exhibition/snippet_footer.html" %}
+        </div>
+    </div>
+</div>
 
-          function toggleOverlay(mediaId) {
-              let x = document.getElementById(mediaId);
-              if(x != null ) {
-                  if (x.style.display === "none") {
-                      x.style.display = "block";
-                      if(mediaId != "program") {
-                          document.body.classList.add("noscroll");
-                      }
-                      var z = document.getElementById('divScroll' + mediaId);
-                        if(z  != null) {
-                            if (z.className.includes("endless_map_overlay")) {
-                                console.log(z);
-                                z.scrollTo(z.scrollWidth * 0.75, z.scrollHeight / 4);
-                            }
-                        }
+{% include "exhibition/snippet_impressum.html" %}
+<!-- Fin Calque media & impressum -->
+{% if contents.display_program and object.entrance %}
+    {% include "exhibition/snippet_program.html" %}
+{% endif %}
+<script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+    var stopVideos = function () {
+        var videos = document.querySelectorAll('iframe, video');
+        Array.prototype.forEach.call(videos, function (video) {
+            if (video.tagName.toLowerCase() === 'video') {
+                video.pause();
+            } else {
+                var src = video.src;
+                video.src = src;
+            }
+        });
+    };
 
-                  } else {
-                      x.style.display = "none";
-                      document.body.classList.remove("noscroll");
-                      stopVideos();
-                  }
-              }
-          }
-          function toggleFullScreenVideo(id) {
-              let x = document.getElementById("close-video"+id);
-              let y = document.getElementById("keycase-video"+id);
-              if (x.style.display === "none") {
+    function toggleOverlay(mediaId) {
+        let x = document.getElementById(mediaId);
+        if(x != null ) {
+            if (x.style.display === "none") {
                 x.style.display = "block";
-                y.style.display = "block";
-
-              } else {
+                if(mediaId != "program") {
+                    document.body.classList.add("noscroll");
+                }
+                var z = document.getElementById('divScroll' + mediaId);
+                if(z  != null) {
+                    if (z.className.includes("endless_map_overlay")) {
+                        console.log(z);
+                        z.scrollTo(z.scrollWidth * 0.75, z.scrollHeight / 4);
+                    }
+                }
+            } else {
                 x.style.display = "none";
-                y.style.display = "none";
+                document.body.classList.remove("noscroll");
                 stopVideos();
-              }
-          }
-
-          if (!document.cookie.split('; ').find(row => row.startsWith('hideProgram'))) {
-            toggleOverlay('program');
-            document.cookie = "hideProgram=true; max-age=86400";
-          }
-
-      </script>
-	{%  if object.background_sound %}
-      <audio id="background-audio">
-        <source src="{{ object.background_sound.url }}" type="audio/mpeg">
-      </audio>
-      <script>
-      var button = document.getElementById("play-button");
-      var audio = document.getElementById("background-audio");
-
-      button.addEventListener("click", function(){
-        if(audio.paused){
-          audio.play();
-        } else {
-          audio.pause();
+            }
         }
-      });
-      </script>
-      {% endif %}
+    }
+    function toggleFullScreenVideo(id) {
+        let x = document.getElementById("close-video"+id);
+        let y = document.getElementById("keycase-video"+id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.style.display = "block";
+        } else {
+            x.style.display = "none";
+            y.style.display = "none";
+            stopVideos();
+        }
+    }
 
-      {% for poi in object.poi_set.all %}
-          {% if poi.this_fullscreen_video %}
+    if (!document.cookie.split('; ').find(row => row.startsWith('hideProgram'))) {
+        toggleOverlay('program');
+        document.cookie = "hideProgram=true; max-age=86400";
+    }
 
-          {% else %}
-              <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
-                <div class="overlay">
-                  <a href="#" class="linkoverlayclose overlay-close" onclick="toggleOverlay('media{{ poi.pk }}'); return false">X</a>
-                  <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay">{{poi.media.student.first_name}} {{poi.media.student.last_name}}</a>
-                  <span class="overlay-title">{{poi.media.name}}</span>
-                  <div class="overlay-content">
+</script>
+{%  if object.background_sound %}
+    <audio id="background-audio">
+        <source src="{{ object.background_sound.url }}" type="audio/mpeg">
+    </audio>
+    <script>
+        var button = document.getElementById("play-button");
+        var audio = document.getElementById("background-audio");
 
+        button.addEventListener("click", function(){
+            if(audio.paused){
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        });
+    </script>
+{% endif %}
+
+{% for poi in object.poi_set.all %}
+    {% if poi.this_fullscreen_video %}
+    {% else %}
+        <div class="overlayframe" id="media{{ poi.pk }}" style="display:none;">
+            <div class="overlay">
+                <a href="#" class="linkoverlayclose overlay-close" onclick="toggleOverlay('media{{ poi.pk }}'); return false">X</a>
+                <a href="{{poi.media.student.get_absolute_url}}" class="overlay-student linkoverlay">{{poi.media.student.first_name}} {{poi.media.student.last_name}}</a>
+                <span class="overlay-title">{{poi.media.name}}</span>
+                <div class="overlay-content">
                     <div id="divScrollmedia{{ poi.pk }}" class="overlay-element w-75 {% if poi.this_specific_class_endless %} endless_map_overlay {% endif %}" >
-
-
                         {% if poi.media.image %}
-                        <img src="{{ poi.media.image.url }}" {% if not poi.this_specific_class_endless %} class="overlay-image" {% endif %}/>
+                            <img src="{{ poi.media.image.url }}" {% if not poi.this_specific_class_endless %} class="overlay-image" {% endif %}/>
                         {% else %}
                             {{ poi.media.html_embed|safe }}
                         {% endif %}
-
                     </div>
                     <p class="overlay-caption">{{poi.media.legend}}</p>
                     <div class="overlay-description">
-                      {{poi.media.description|safe}}
+                        {{poi.media.description|safe}}
                     </div>
-                  </div>
                 </div>
-              </div>
-        {% endif  %}
-      {% endfor %}
+            </div>
+        </div>
+    {% endif  %}
+{% endfor %}
 
 
-      {% if object.animation == 'NOJS' %}
+{% if object.animation == 'NOJS' %}
+    <script>
+        <!-- Si on n est pas à la home page on mets a 0 le menu des places  -->
+        {% if not object.entrance %}
+            var menuOrte = document.getElementById('keycase');
+            menuOrte.style.width = "0%";
+            menuOrte.style.padding ="0px"
+        {% endif %}
 
+        document.getElementById("backgroundIMG").style.position="relative"
 
+        {% for poi in object.poi_set.all %}
+            <!-- div qui contient l img du poi et le text hover -->
+            var myDivContainer{{ poi.id }} = document.createElement('div');
+            myDivContainer{{ poi.id }}.id = 'myDivContainer{{ poi.id }}';
+            myDivContainer{{ poi.id }}.style = "position : absolute; display : block;"
+            myDivContainer{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
+            myDivContainer{{ poi.id }}.style.left = "{{poi.position_x}}%";
+            myDivContainer{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
+            myDivContainer{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
 
-          <script>
-            <!-- Si on n est pas à la home page on mets a 0 le menu des places  -->
-           {% if not object.entrance %}
-               var menuOrte = document.getElementById('keycase');
-               menuOrte.style.width = "0%";
-               menuOrte.style.padding ="0px"
+            block.appendChild(myDivContainer{{ poi.id }});
 
-           {% endif %}
+            var img{{ poi.id }} = document.createElement("img");
+            img{{ poi.id }}.src = "{{poi.poi_image.url}}";
 
-            var block = document.getElementById('room');
-            var height = block.clientHeight;
-            var width = block.clientWidth;
+            myDivContainer{{ poi.id }}.appendChild(img{{ poi.id }});
 
-            $(function() {
-            $("#room").click(function(e) {
-              var offset = $(this).offset();
-              var relativeX = (e.pageX - offset.left);
-              var relativeY = (e.pageY - offset.top);
-              console.log("x " + (relativeX*100) / width +' : y '+(relativeY*100) / height);
-              $(".position").val("afaf");
-            });
-            });
+            img{{ poi.id }}.style.top = "0%" ;
+            img{{ poi.id }}.style.left = "0%";
 
+            img{{ poi.id }}.classList.add( "img-fluid");
+            {% if poi.css_class %}
+                img{{ poi.id }}.classList.add("{{ poi.css_class }}");
+            {% endif %}
 
-            document.getElementById("backgroundIMG").style.position="relative"
-
-
-             {% for poi in object.poi_set.all %}
-                 <!-- div qui contient l img du poi et le text hover -->
-                  var myDivContainer{{ poi.id }} = document.createElement('div');
-                  myDivContainer{{ poi.id }}.id = 'myDivContainer{{ poi.id }}';
-                  myDivContainer{{ poi.id }}.style = "position : absolute; display : block;"
-                  myDivContainer{{ poi.id }}.style.top = "{{poi.position_y}}%" ;
-                  myDivContainer{{ poi.id }}.style.left = "{{poi.position_x}}%";
-                  myDivContainer{{ poi.id }}.style.maxWidth = "{{poi.position_w}}%"; //22%
-                  myDivContainer{{ poi.id }}.style.maxHeight = "{{poi.position_h}}%"; //47%
-
-
-                   block.appendChild(myDivContainer{{ poi.id }});
-
-
-
-
-                    var img{{ poi.id }} = document.createElement("img");
-                    img{{ poi.id }}.src = "{{poi.poi_image.url}}";
-
-
-                    myDivContainer{{ poi.id }}.appendChild(img{{ poi.id }});
-
-                   // img{{ poi.id }}.style.position = "absolute";
-                    img{{ poi.id }}.style.top = "0%" ;
-                    img{{ poi.id }}.style.left = "0%";
-
-                    img{{ poi.id }}.classList.add( "img-fluid");
-                    {% if poi.css_class %}
-                        img{{ poi.id }}.classList.add("{{ poi.css_class }}");
-                    {% endif %}
-
-                 {% if poi.this_is_a_sound %}
-                    var sound{{ poi.id }}      = document.createElement('audio');
-                    sound{{ poi.id }}.id       = 'audio-player';
-                    sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
-                    sound{{ poi.id }}.type     = 'audio/mpeg';
-                    block.appendChild(sound{{ poi.id }});
-                    img{{ poi.id }}.onclick = function(){
-                        if(sound{{ poi.id }}.paused){
-                          sound{{ poi.id }}.play();
-                        } else {
-                          sound{{ poi.id }}.pause();
-                        }
-                    };
-                 {% elif poi.url_link %}
-                     img{{ poi.id }}.onclick = function(){
-                            window.location.href = "{{ poi.url_link }}";
-                    };
-
-                 {% else %}
-                     img{{ poi.id }}.onclick = function(){
-                         {% if poi.this_fullscreen_video %}
-                             toggleFullScreenVideo({{poi.id}});
-                         {% else %}
-                            toggleOverlay('media{{ poi.pk }}');
-                         {% endif %}
-                     };
-                 {% endif %}
-
-                 var newContent{{ poi.id }} = document.createTextNode("{{poi.name}}");
-
-                var myDiv{{ poi.id }} = document.createElement('div');
-                myDiv{{ poi.id }}.id = 'div{{ poi.id }}';
-                myDiv{{ poi.id }}.className = "panolens-infospot"
-                myDiv{{ poi.id }}.style = "display: none; color: rgb(255, 255, 255); top: -1%; left:50%; transform: translate(-50%, -50%); max-width: 50%; max-height: 50%; text-shadow: rgb(0, 0, 0) 0px 0px 3px; font-family: &quot;Trebuchet MS&quot;, Helvetica, sans-serif; position: absolute; "
-
-
-
-                myDivContainer{{ poi.id }}.appendChild(myDiv{{ poi.id }});
-                myDiv{{ poi.id }}.appendChild(newContent{{ poi.id }});
-
-
-
-              img{{ poi.id }}.onmouseenter = function () {
-                  let x = document.getElementById('div{{ poi.pk }}');
-                  x.style.display = "block";
-
-              }
-              img{{ poi.id }}.onmouseout = function () {
-                    let x = document.getElementById('div{{ poi.pk }}');
-                    x.style.display = "none";
-              }
-             {% endfor %}
-
-          </script>
-
-      {% elif object.animation == 'INFI' %}
-          <script>
-            {% for poi in object.poi_set.all %}
-
-
-                var customPopup = "<div class ='panolens-infospot'> {{ poi.name }} </div>";
-
-                // specify popup options
-                var customOptions =
-                    {
-                     'className' : 'panolens-infospot popup'
+            {% if poi.this_is_a_sound %}
+                var sound{{ poi.id }}      = document.createElement('audio');
+                sound{{ poi.id }}.id       = 'audio-player';
+                sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
+                sound{{ poi.id }}.type     = 'audio/mpeg';
+                block.appendChild(sound{{ poi.id }});
+                img{{ poi.id }}.onclick = function(){
+                    if(sound{{ poi.id }}.paused){
+                        sound{{ poi.id }}.play();
+                    } else {
+                        sound{{ poi.id }}.pause();
                     }
+                };
+            {% elif poi.url_link %}
+                img{{ poi.id }}.onclick = function(){
+                    window.location.href = "{{ poi.url_link }}";
+                };
 
-                var greenIcon{{ poi.id }} = L.icon({
-                    iconUrl: '{{poi.poi_image.url}}',
-
-                    iconSize:     [{{poi.position_w}}, {{poi.position_h}}], // size of the icon
-                    //iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                    popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor
-                    {% if poi.css_class %}
-                        className:  '{{ poi.css_class }}',
+            {% else %}
+                img{{ poi.id }}.onclick = function(){
+                    {% if poi.this_fullscreen_video %}
+                        toggleFullScreenVideo({{poi.id}});
+                    {% else %}
+                        toggleOverlay('media{{ poi.pk }}');
                     {% endif %}
-                });
+                };
+            {% endif %}
 
-                var lng = ( {{poi.position_x}} / 100 ) * clientWidth ;
-                var lat = ( {{poi.position_y}} /100 ) * clientHeight ;
-                    console.log(lng + " - " + lat)
+            var newContent{{ poi.id }} = document.createTextNode("{{poi.name}}");
 
+            var myDiv{{ poi.id }} = document.createElement('div');
+            myDiv{{ poi.id }}.id = 'div{{ poi.id }}';
+            myDiv{{ poi.id }}.className = "panolens-infospot"
+            myDiv{{ poi.id }}.style = "display: none; color: rgb(255, 255, 255); top: -1%; left:50%; transform: translate(-50%, -50%); max-width: 50%; max-height: 50%; text-shadow: rgb(0, 0, 0) 0px 0px 3px; font-family: &quot;Trebuchet MS&quot;, Helvetica, sans-serif; position: absolute; "
 
-                {% if poi.this_is_a_sound %}
+            myDivContainer{{ poi.id }}.appendChild(myDiv{{ poi.id }});
+            myDiv{{ poi.id }}.appendChild(newContent{{ poi.id }});
 
-                    var block = document.getElementById('room');
-
-                    var sound{{ poi.id }}      = document.createElement('audio');
-                    sound{{ poi.id }}.id       = 'audio-player';
-                    sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
-                    sound{{ poi.id }}.type     = 'audio/mpeg';
-                    {% if poi.orte.name == "Spa" %}
-                        sound{{ poi.id }}.loop = true;
-                    {% endif %}
-                    block.appendChild(sound{{ poi.id }});
-
-                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
-                       if(sound{{ poi.id }}.paused){
-                              sound{{ poi.id }}.play();
-                            } else {
-                              sound{{ poi.id }}.pause();
-                            }
-                        });
-                {% elif poi.url_link %}
-                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
-                        window.location.href = "{{ poi.url_link }}";
-                    });
-
-
-                {%else %}
-
-                    var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
-                        console.log(e.latlng);
-                        {% if poi.this_fullscreen_video %}
-                             toggleFullScreenVideo({{poi.id}});
-                         {% else %}
-                            toggleOverlay('media{{ poi.pk }}');
-                         {% endif %}
-                    });
-                {% endif %}
-
-                maker{{ poi.id }}.bindPopup(customPopup,customOptions);
-
-                maker{{ poi.id }}.on('mouseover', function(event){
-                  maker{{ poi.id }}.openPopup();
-                });
-
-                maker{{ poi.id }}.on('mouseout', function(event){
-                  maker{{ poi.id }}.closePopup();
-                });
-            {% endfor %}
-           map.on('click', function(e){
-                  var coord = e.latlng;
-                  var lat = coord.lat;
-                  var lng = coord.lng;
-                    console.log(e.latlng);
-                  console.log("X : " + (lng/clientWidth) * 100 + "  Y :" + (lat/clientHeight) *100);
-                });
-
-
-            function map_onResize(e){
-
-               var newClientHeight = document.getElementById('map').clientHeight;
-               var newClientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * newClientHeight ;
-               var newBounds = [[0,0], [newClientHeight,newClientWidth]];
-
-
-                setTimeout(function(){
-                    window.location.reload(false); //vraiment barbe but it works
-
-                    //map.invalidateSize();
-                    //var myMap  = document.getElementById('map')
-                    //console.log("nouveau "+newBounds);
-                    //myMap.load();
-                    //map.reload();
-                },800);
-               //map.fitBounds(newBounds, true);
+            img{{ poi.id }}.onmouseenter = function () {
+                let x = document.getElementById('div{{ poi.pk }}');
+                x.style.display = "block";
             }
-            map.on({ resize: map_onResize });
-          </script>
 
-      {% elif object.animation == 'EQUI' %}
+            img{{ poi.id }}.onmouseout = function () {
+                let x = document.getElementById('div{{ poi.pk }}');
+                x.style.display = "none";
+            }
+        {% endfor %}
+    </script>
 
+{% elif object.animation == 'INFI' %}
+    <script>
+        {% for poi in object.poi_set.all %}
+            var customPopup = "<div class ='panolens-infospot'> {{ poi.name }} </div>";
+            // specify popup options
+            var customOptions =
+                {
+                    'className' : 'panolens-infospot popup'
+                }
 
-          <script>
-              {% if object.background %}
-                  const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}'   );
-                  var content = document.getElementById('main');
-              {% endif %}
+            var greenIcon{{ poi.id }} = L.icon({
+                iconUrl: '{{poi.poi_image.url}}',
 
+                iconSize:     [{{poi.position_w}}, {{poi.position_h}}], // size of the icon
+                popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor
+                {% if poi.css_class %}
+                    className:  '{{ poi.css_class }}',
+                {% endif %}
+            });
 
+            {% if poi.this_is_a_sound %}
+                var block = document.getElementById('room');
+                var sound{{ poi.id }}      = document.createElement('audio');
+                sound{{ poi.id }}.id       = 'audio-player';
+                sound{{ poi.id }}.src      = '{{ poi.media.sound.url }}';
+                sound{{ poi.id }}.type     = 'audio/mpeg';
+                {% if poi.orte.name == "Spa" %}
+                    sound{{ poi.id }}.loop = true;
+                {% endif %}
+                block.appendChild(sound{{ poi.id }});
 
-              {% for poi in object.poi_set.all %}
+                var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    if(sound{{ poi.id }}.paused){
+                        sound{{ poi.id }}.play();
+                    } else {
+                        sound{{ poi.id }}.pause();
+                    }
+                });
+            {% elif poi.url_link %}
+                var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    window.location.href = "{{ poi.url_link }}";
+                });
+            {%else %}
+                var maker{{ poi.id }} = L.marker([lat,lng], {icon: greenIcon{{ poi.id }}}).addTo(map).on('click', function(e) {
+                    console.log(e.latlng);
+                    {% if poi.this_fullscreen_video %}
+                        toggleFullScreenVideo({{poi.id}});
+                    {% else %}
+                        toggleOverlay('media{{ poi.pk }}');
+                    {% endif %}
+                });
+            {% endif %}
 
+            maker{{ poi.id }}.bindPopup(customPopup,customOptions);
+            maker{{ poi.id }}.on('mouseover', function(event){
+                maker{{ poi.id }}.openPopup();
+            });
+            maker{{ poi.id }}.on('mouseout', function(event){
+                maker{{ poi.id }}.closePopup();
+            });
+        {% endfor %}
+        function map_onResize(e){
+            var newClientHeight = document.getElementById('map').clientHeight;
+            var newClientWidth = ( {{object.map_width}} /  {{ object.map_height}} ) * newClientHeight ;
+            var newBounds = [[0,0], [newClientHeight,newClientWidth]];
 
-                  infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
-                  infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
-                  {% if not poi.hide_overlay and not poi.this_is_a_sound and not poi.url_link%}
-                          infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
-                          infospot{{ poi.pk }}.addEventListener( 'click', function(){
-                             {% if poi.this_fullscreen_video %}
-                                 toggleFullScreenVideo({{poi.id}});
-                             {% else %}
-                                toggleOverlay('media{{ poi.pk }}');
-                             {% endif %}
+            setTimeout(function(){
+                window.location.reload(false); //vraiment barbe but it works
+            },800);
+        }
+        map.on({ resize: map_onResize });
+    </script>
 
-                              infospot{{ poi.pk }}.unlockHoverElement();
+{% elif object.animation == 'EQUI' %}
 
+    <script>
+        {% if object.background %}
+            const panorama = new PANOLENS.ImagePanorama( '{{ object.background.url }}'   );
+            var content = document.getElementById('main');
+        {% endif %}
 
+        {% for poi in object.poi_set.all %}
 
-                          } );
-                  {% endif %}
+            infospot{{ poi.pk }} = new PANOLENS.Infospot( {{ poi.scale }}, '{{ poi.poi_image.url }}', false );
+            infospot{{ poi.pk }}.position.set( {{ poi.position_x }}, {{ poi.position_y }}, {{ poi.position_z }} );
+            {% if not poi.hide_overlay and not poi.this_is_a_sound and not poi.url_link%}
+                infospot{{ poi.pk }}.addHoverText( "{{ poi.name }} ", 50 );
+                infospot{{ poi.pk }}.addEventListener( 'click', function(){
+                    {% if poi.this_fullscreen_video %}
+                        toggleFullScreenVideo({{poi.id}});
+                    {% else %}
+                        toggleOverlay('media{{ poi.pk }}');
+                    {% endif %}
 
-                  {% if poi.this_is_a_sound %}
+                    infospot{{ poi.pk }}.unlockHoverElement();
+                } );
+            {% endif %}
 
-                    var sound{{ poi.pk }}      = document.createElement('audio');
-                    sound{{ poi.pk }}.id       = 'audio-player{{ poi.pk }}';
-                    sound{{ poi.pk }}.src      = '{{ poi.media.sound.url }}';
-                    sound{{ poi.pk }}.type     = 'audio/mpeg';
-                    content.appendChild(sound{{ poi.pk }});
+            {% if poi.this_is_a_sound %}
 
-                    infospot{{ poi.pk }}.addEventListener( 'click', function(){
+                var sound{{ poi.pk }}      = document.createElement('audio');
+                sound{{ poi.pk }}.id       = 'audio-player{{ poi.pk }}';
+                sound{{ poi.pk }}.src      = '{{ poi.media.sound.url }}';
+                sound{{ poi.pk }}.type     = 'audio/mpeg';
+                content.appendChild(sound{{ poi.pk }});
 
-                        if(sound{{ poi.pk }}.paused){
+                infospot{{ poi.pk }}.addEventListener( 'click', function(){
+                    if(sound{{ poi.pk }}.paused){
+                        sound{{ poi.pk }}.play();
+                    } else {
+                        sound{{ poi.pk }}.pause();
+                    }
+                } );
+            {% elif poi.url_link %}
+                infospot{{ poi.pk }}.addEventListener( 'click', function(){
+                    window.location.href = "{{ poi.url_link }}";
+                } );
 
-                          sound{{ poi.pk }}.play();
+            {% endif %}
+            panorama.add( infospot{{ poi.pk }} );
+        {% endfor %}
+        {% if object.position_x and  object.position_y and object.position_z%}
+            var lookAtPositions = new THREE.Vector3({{ object.position_x }}, {{ object.position_y }},{{ object.position_z }});
+            panorama.addEventListener( 'enter-fade-start', function(){
+                viewer.tweenControlCenter( lookAtPositions, 0 );
+            } );
+        {% endif %}
 
-                        } else {
+        const viewer = new PANOLENS.Viewer({
+            container: document.getElementById("room"),
+            controlBar: false,
+            autoHideInfospot: false
+        });
+        viewer.OrbitControls.maxFov = 60; // Set fov max
+        viewer.add( panorama );
+    </script>
 
-                          sound{{ poi.pk }}.pause();
+{% endif %}
+<!-- Preload navigation right and left -->
+<div style="display: none;">
+    {% if object.next.background %}
+        <img src="{{ object.next.background.url }}" />
+    {% endif %}
+    {% if object.previous.background %}
+        <img src="{{ object.previous.background.url }}" />
+    {% endif %}
+</div>
 
-                        }
-                      } );
-                  {% elif poi.url_link %}
-                      infospot{{ poi.pk }}.addEventListener( 'click', function(){
-
-                        window.location.href = "{{ poi.url_link }}";
-                      } );
-
-                  {% endif %}
-                  {% if poi.css_class %}
-
-                  {% endif %}
-                  panorama.add( infospot{{ poi.pk }} );
-              {% endfor %}
-              {% if object.position_x and  object.position_y and object.position_z%}
-                    var lookAtPositions = new THREE.Vector3({{ object.position_x }}, {{ object.position_y }},{{ object.position_z }});
-
-                    panorama.addEventListener( 'enter-fade-start', function(){
-                        viewer.tweenControlCenter( lookAtPositions, 0 );
-                    } );
-              {% endif %}
-
-              const viewer = new PANOLENS.Viewer({
-                  container: document.getElementById("room"),
-                  controlBar: false,
-                  output: 'console',
-                  autoHideInfospot: false
-
-              });
-              //viewer.OrbitControls.minFov = 60; // Set max zoom
-              viewer.OrbitControls.maxFov = 60; // Set fov max
-              viewer.add( panorama );
-
-          </script>
-
-      {% endif %}
-      <!-- Preload navigation right and left -->
-      <div style="display: none;">
-          {% if object.next.background %}
-            <img src="{{ object.next.background.url }}" />
-          {% endif %}
-          {% if object.previous.background %}
-            <img src="{{ object.previous.background.url }}" />
-          {% endif %}
-      </div>
-
-  </body>
+</body>
 </html>

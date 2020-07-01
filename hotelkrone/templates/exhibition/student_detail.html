@@ -26,132 +26,120 @@
   </head>
 
   <body>
-      <div id="main-student">
-
-        <div id="topline">
+  <div id="main-student">
+      <div id="topline">
           <div id="corner-top-left"></div>
           <div id="top-hotel">
-            <div id="title-hotel">
-              <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
-              <span class="subtitlestud">
-                {% if prev_student %}
-                  <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames"><img src="{% static 'media/arrow-prev.png' %}" width="15px" alt="">&nbsp</a>
-                {% endif %}
-                  {{ object.first_name }} {{ object.last_name }}
-                {% if next_student %}
-                  <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">&nbsp<img src="{% static 'media/arrow-next.png' %}" width="15px" alt=""></a>
-                {% endif %}
-              </span>
-
-            </div>
+              <div id="title-hotel">
+                  <a href="{% url 'home' %}" class="linknames title">Hotel Krone</a>
+                  <span class="subtitlestud">
+                    {% if prev_student %}
+                      <a href="{{ prev_student.get_absolute_url }}" class="arrow linknames"><img src="{% static 'media/arrow-prev.png' %}" width="15px" alt="">&nbsp</a>
+                    {% endif %}
+                    {{ object.first_name }} {{ object.last_name }}
+                    {% if next_student %}
+                      <a href="{{ next_student.get_absolute_url }}" class="arrow linknames">&nbsp<img src="{% static 'media/arrow-next.png' %}" width="15px" alt=""></a>
+                    {% endif %}
+                  </span>
+              </div>
           </div>
           <div id="corner-top-right"></div>
-        </div>
+      </div>
 
       <div id="middle">
-			  <div id="mar-left">
-          {%  if not object.orten %}
-            <div id="txtleft"><span class="greytext">x</span></div>
-          {% else %}
-            <div id="txtleft"><a href="{{ object.orten.first.get_absolute_url }}" class="linkstudent">{{ object.orten.first.name }}</a></div>
-          {% endif %}
-        </div>
+          <div id="mar-left">
+              {%  if not object.orten %}
+                  <div id="txtleft"><span class="greytext">x</span></div>
+              {% else %}
+                  <div id="txtleft"><a href="{{ object.orten.first.get_absolute_url }}" class="linkstudent">{{ object.orten.first.name }}</a></div>
+              {% endif %}
+          </div>
 
           <div id="key-student">
               <div id="carouselcont">
-                <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
-                  <!-- <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-interval="10000"> -->
-                  <div class="carousel-inner">
-  
-                    {% for media in artworks %}
-                      <div class="carousel-item{% if forloop.first %} active{% endif %}">
-                        {% if media.image %}
-                            <img src="{{ media.image.url }}" class="d-block w-100">
-                        {% elif media.sound %}
-                            <div class="student-player">
-                               <audio id="background-audio" controls style="outline: none;">
-                                  <source src="{{ media.sound.url }}" type="audio/mpeg">
-                               </audio>
-                            </div>
-                        {% else %}
-
-                            {{ media.html_embed|safe }}
-                        {% endif %}
-                        <div class="carousel-capt">
-                          <p class="carousel-capt-title">{{ media.name }}</p>
-                          <p class="carousel-capt-txt">{{ media.legend }}</p>
-                          <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                            <img src="{% static 'media/arrow-prev.png' %}" width="20px" alt="">
-                            <span class="sr-only">Previous</span>
-                          </a>
-                          <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                            <img src="{% static 'media/arrow-next.png' %}" width="20px" alt="">
-                            <span class="sr-only">Next</span>
-                          </a>
-                        </div>
+                  <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
+                      <div class="carousel-inner">
+                          {% for media in artworks %}
+                              <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                                  {% if media.image %}
+                                      <img src="{{ media.image.url }}" class="d-block w-100">
+                                  {% elif media.sound %}
+                                      <div class="student-player">
+                                          <audio id="background-audio" controls style="outline: none;">
+                                              <source src="{{ media.sound.url }}" type="audio/mpeg">
+                                          </audio>
+                                      </div>
+                                  {% else %}
+                                      {{ media.html_embed|safe }}
+                                  {% endif %}
+                                  <div class="carousel-capt">
+                                      <p class="carousel-capt-title">{{ media.name }}</p>
+                                      <p class="carousel-capt-txt">{{ media.legend }}</p>
+                                      <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
+                                          <img src="{% static 'media/arrow-prev.png' %}" width="20px" alt="">
+                                          <span class="sr-only">Previous</span>
+                                      </a>
+                                      <a class="carousel-control-next" href="#" role="button" data-slide="next">
+                                          <img src="{% static 'media/arrow-next.png' %}" width="20px" alt="">
+                                          <span class="sr-only">Next</span>
+                                      </a>
+                                  </div>
+                              </div>
+                          {% endfor %}
                       </div>
-                    {% endfor %}
                   </div>
-                </div>
               </div>
-            
-
-                <div id="ground-student">
-
+              <div id="ground-student">
                   <div id="groundtextthesis">
-					          {{ object.bachelor_thesis_abstract|safe }}
+                      {{ object.bachelor_thesis_abstract|safe }}
                   </div>
                   <div id="groundstudlinks">
-                    <dl>
-                      {% if object.personal_website %}
-                      <dt>Website:</dt> <dd><a href="{{ object.personal_website }}" class="linkund externlink" target="_blank">{{ object.personal_website }}</a></dd>
-                      {% endif %}
-                      {% if object.instagram_handle %}
-                        <dt>Instagram:</dt> <dd> <a href="https://www.instagram.com/{{ object.instagram_handle }}" class="linkund externlink" target="_blank">@{{ object.instagram_handle }}</a></dd>
-                      {% endif %}
-                      {% if object.project_website %}
-                        <dt>{% if object.project_website2 %}Projects: </dt>{% else %}Project: </dt>{% endif %}<dd> <a href="{{ object.project_website }}" class="linkund externlink" target="_blank">{{ object.project_website }}</a>{% if object.project_website2 %} | <a href="{{ object.project_website2 }}">{{ object.project_website2 }}</a>{% endif %}</dd>
-                      {% endif %}
-                      {% if object.kleio_profile %}
-                        <dt>Kleio: </dt> <dd><a href="{{ object.kleio_profile }}" class="linkund externlink" target="_blank">{{ object.kleio_profile }}</a></dd>
-                      {% endif %}
-                      {% if object.portfolio %}
-                        <dd class="portfolio">Download portfolio as pdf file <a href="{{ object.portfolio.url }}" class="linkund externlink" target="_blank">here</a></dd>
-                      {% endif %}
-                    </dl>
+                      <dl>
+                          {% if object.personal_website %}
+                              <dt>Website:</dt> <dd><a href="{{ object.personal_website }}" class="linkund externlink" target="_blank">{{ object.personal_website }}</a></dd>
+                          {% endif %}
+                          {% if object.instagram_handle %}
+                              <dt>Instagram:</dt> <dd> <a href="https://www.instagram.com/{{ object.instagram_handle }}" class="linkund externlink" target="_blank">@{{ object.instagram_handle }}</a></dd>
+                          {% endif %}
+                          {% if object.project_website %}
+                              <dt>{% if object.project_website2 %}Projects: </dt>{% else %}Project: </dt>{% endif %}<dd> <a href="{{ object.project_website }}" class="linkund externlink" target="_blank">{{ object.project_website }}</a>{% if object.project_website2 %} | <a href="{{ object.project_website2 }}">{{ object.project_website2 }}</a>{% endif %}</dd>
+                          {% endif %}
+                          {% if object.kleio_profile %}
+                              <dt>Kleio: </dt> <dd><a href="{{ object.kleio_profile }}" class="linkund externlink" target="_blank">{{ object.kleio_profile }}</a></dd>
+                          {% endif %}
+                          {% if object.portfolio %}
+                              <dd class="portfolio">Download portfolio as pdf file <a href="{{ object.portfolio.url }}" class="linkund externlink" target="_blank">here</a></dd>
+                          {% endif %}
+                      </dl>
                   </div>
-                </div>
-            </div>
-			      <div id="mar-right">
+              </div>
+          </div>
+          <div id="mar-right">
               {%  if not object.orten or object.orten.first == object.orten.last %}
-                <div id="txtright"><span class="greytext">x</span></div>
+                  <div id="txtright"><span class="greytext">x</span></div>
               {% else %}
-                <div id="txtright"><a href="{{ object.orten.last.get_absolute_url }}" class="linkstudent">{{ object.orten.last.name }}</a></div>
+                  <div id="txtright"><a href="{{ object.orten.last.get_absolute_url }}" class="linkstudent">{{ object.orten.last.name }}</a></div>
               {% endif %}
-            </div>
-			
-            {% include "exhibition/snippet_footer.html" %}
-        </div>
+          </div>
+          {% include "exhibition/snippet_footer.html" %}
       </div>
-
-    </div>
-
-    {% include "exhibition/snippet_impressum.html" %}
-
-      <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <script src="{% static 'js/bootstrap.min.js' %}"></script>
-      <script>
-          function toggleOverlay(mediaId) {
-              let x = document.getElementById(mediaId);
-              if (x.style.display === "none") {
-                x.style.display = "block";
-                document.body.classList.add("noscroll");
-              } else {
-                x.style.display = "none";
-                document.body.classList.remove("noscroll");
-              }
+  </div>
+  </div>
+  {% include "exhibition/snippet_impressum.html" %}
+  <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script>
+      function toggleOverlay(mediaId) {
+          let x = document.getElementById(mediaId);
+          if (x.style.display === "none") {
+              x.style.display = "block";
+              document.body.classList.add("noscroll");
+          } else {
+              x.style.display = "none";
+              document.body.classList.remove("noscroll");
           }
-      </script>
+      }
+  </script>
   </body>
 </html>
